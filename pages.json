@@ -1,0 +1,105 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/home/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent",//透明渐变导航栏 App-nvue 2.4.4+ 支持
+						"searchInput": {
+							"backgroundColor": "#fff",
+							"borderRadius": "6px", //输入框圆角
+							"placeholder": "请输入搜索内容",
+							"disabled": true //disable时点击输入框不置焦，可以跳到新页面搜索
+						},
+						"buttons": [ //原生标题栏按钮配置,
+							{
+								"text": "分享" //原生标题栏增加分享按钮，点击事件可通过页面的 onNavigationBarButtonTap 函数进行监听
+							}
+						]
+					}
+				},
+				"h5": {
+					"titleNView": {
+						"type": "transparent",//透明渐变导航栏 App-nvue 2.4.4+ 支持
+						"searchInput": {
+							"backgroundColor": "#fff",
+							"borderRadius": "6px", //输入框圆角
+							"placeholder": "请输入搜索内容",
+							"disabled": true //disable时点击输入框不置焦，可以跳到新页面搜索
+						},
+						"buttons": [ //原生标题栏按钮配置,
+							{
+								"text": "分享" //原生标题栏增加分享按钮，点击事件可通过页面的 onNavigationBarButtonTap 函数进行监听
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/buycar/index",
+			"style": {
+				"navigationBarTitleText": "买车"
+			}
+		},
+		{
+			"path": "pages/sale/index",
+			"style": {
+				"navigationBarTitleText": "卖车"
+			}
+		},
+		{
+			"path": "pages/evaluate/index",
+			"style": {
+				"navigationBarTitleText": "估价"
+			}
+		},
+		{
+			"path": "pages/mine/index",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "抵押车",
+		"navigationBarBackgroundColor": "#BB271D",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#686868",
+		"selectedColor": "#BB271D",
+		"borderStyle": "white",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+				"pagePath": "pages/home/index",
+				"iconPath": "static/image/tabbar/home.png",
+				"selectedIconPath": "static/image/tabbar/home-selected.png",
+				"text": "首页"
+			}, {
+				"pagePath": "pages/buycar/index",
+				"iconPath": "static/image/tabbar/buycar.png",
+				"selectedIconPath": "static/image/tabbar/buycar-selected.png",
+				"text": "买车"
+			},{
+				"pagePath": "pages/sale/index",
+				"iconPath": "static/image/tabbar/sale.png",
+				"selectedIconPath": "static/image/tabbar/sale-selected.png",
+				"text": "卖车"
+			},{
+				"pagePath": "pages/evaluate/index",
+				"iconPath": "static/image/tabbar/evaluate.png",
+				"selectedIconPath": "static/image/tabbar/evaluate-selected.png",
+				"text": "估价"
+			},{
+				"pagePath": "pages/mine/index",
+				"iconPath": "static/image/tabbar/mine.png",
+				"selectedIconPath": "static/image/tabbar/mine-selected.png",
+				"text": "我的"
+			}
+		]
+	}
+}
