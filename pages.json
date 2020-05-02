@@ -1,40 +1,66 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
 		{
 			"path": "pages/home/index",
 			"style": {
 				"app-plus": {
 					"titleNView": {
-						"type": "transparent",//透明渐变导航栏 App-nvue 2.4.4+ 支持
 						"searchInput": {
 							"backgroundColor": "#fff",
 							"borderRadius": "6px", //输入框圆角
-							"placeholder": "请输入搜索内容",
-							"disabled": true //disable时点击输入框不置焦，可以跳到新页面搜索
+							"placeholder": "搜索品牌货车型",
+							"disabled": true
 						},
-						"buttons": [ //原生标题栏按钮配置,
+						"buttons": [
 							{
-								"text": "分享" //原生标题栏增加分享按钮，点击事件可通过页面的 onNavigationBarButtonTap 函数进行监听
-							}
+								"text": "全国" ,
+								"float":"left",
+								"fontSize":"12px"
+							}	
 						]
 					}
 				},
 				"h5": {
 					"titleNView": {
-						"type": "transparent",//透明渐变导航栏 App-nvue 2.4.4+ 支持
 						"searchInput": {
 							"backgroundColor": "#fff",
-							"borderRadius": "6px", //输入框圆角
-							"placeholder": "请输入搜索内容",
-							"disabled": true //disable时点击输入框不置焦，可以跳到新页面搜索
+							"borderRadius": "6px",
+							"placeholder": "搜索品牌货车型",
+							"disabled": true 
 						},
-						"buttons": [ //原生标题栏按钮配置,
+						"buttons": [
 							{
-								"text": "分享" //原生标题栏增加分享按钮，点击事件可通过页面的 onNavigationBarButtonTap 函数进行监听
-							}
+								"text": "全国" ,
+								"float":"left",
+								"fontSize":"12px"
+							}	
 						]
 					}
 				}
+			}
+		},
+		{
+		    "path": "pages/login/login",
+		    "style": {
+				"navigationBarTitleText": "会员登录"
+			}
+		}, 
+		{
+		    "path": "pages/login/forget",
+		    "style": {
+				"navigationBarTitleText": "找回密码"
+			}
+		}, 
+		{
+		    "path": "pages/login/register",
+		    "style": {
+				"navigationBarTitleText": "会员注册"
+			}
+		},
+		{
+		    "path": "pages/login/agreeMent",
+		    "style": {
+				"navigationBarTitleText": "注册协议"
 			}
 		},
 		{
@@ -58,13 +84,19 @@
 		{
 			"path": "pages/mine/index",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationBarTitleText": "会员中心"
+			}
+		},
+		{
+			"path": "pages/mine/aboutUs",
+			"style": {
+				"navigationBarTitleText": "关于我们"
 			}
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "抵押车",
+		"navigationBarTitleText": "抵押车出售信息平台_抵押车网_抵押车直卖_抵押车买卖安全交易信息平台_久久泰抵押车网",
 		"navigationBarBackgroundColor": "#BB271D",
 		"backgroundColor": "#F8F8F8"
 	},
