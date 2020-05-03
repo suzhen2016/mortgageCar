@@ -1,0 +1,131 @@
+<template>
+	<view class="information-container">
+		<view class="container-section-new">
+			<view class="person-name">
+				<img src="/static/image/mine/default.jpg" alt="">
+				<view class="detail">
+					<view class="account">账号: jkjssd</view>
+					<view class="level">会员组: 个人会员</view>
+				</view>
+			</view>
+		</view>
+		<view class="list">
+			<navigator hover-class="none" url="./signRecord" class="list-item">
+				<view>签到记录</view>
+			</navigator>
+			<view class="list-item">
+				<view>我的资金</view>
+				<view class="right">￥0.00元</view>
+			</view>
+			<view class="list-item">
+				<view>我的金币</view>
+				<view class="right">4枚</view>
+			</view>
+			<view class="list-item">
+				<view>我的定金</view>
+			</view>
+			<view class="list-item">
+				<view>我的订单</view>
+			</view>
+			<view class="list-item">
+				<view>会员认证</view>
+			</view>
+			<view class="list-item">
+				<view>团购订单</view>
+			</view>
+			<view class="list-item">
+				<view>领券中心</view>
+			</view>
+			<view class="list-item">
+				<view>资金流水</view>
+			</view>
+			<view class="list-item">
+				<view>支付记录</view>
+			</view>
+			<view class="list-item">
+				<view>金币管理</view>
+			</view>
+			<view class="list-item">
+				<view>收货地址</view>
+			</view>
+			<view class="list-item">
+				<view>车源收藏</view>
+			</view>
+			<view class="list-item">
+				<view>一键登录</view>
+			</view>
+			<view class="list-item">
+				<view>微信关注</view>
+			</view>
+			<view class="list-item">
+				<view>修改资料</view>
+			</view>
+			<view class="list-item">
+				<view>账户详情</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	.information-container{
+		.container-section-new{
+			background: url(../../static/image/mine/bg.png) center top no-repeat;
+			width: 100%;
+			height: 368upx;
+			background-size: 100% 368upx;
+			display: flex;
+			padding: 0 40upx;
+			.person-name{
+				display: flex;
+				align-items: center;
+				margin-top: -40upx;
+				img{
+					width: 150upx;
+					height: 150upx;
+					margin-right: 20upx;
+					border-radius: 50%;
+				}
+				.detail{
+					.account{
+						color: #e4e4e4;
+						margin-bottom: 14upx;
+						font-size: 28upx;
+					}
+					.level{
+						color: white;
+						font-size: 24upx;
+						padding: 10upx 0;
+						margin-top: 20upx;
+					}
+				}
+			}
+		}
+		.list{
+			padding: 30upx 20upx 40upx;
+			.list-item{
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				height: 110upx;
+				color: #2F3540;
+				font-size: 32upx;
+				padding: 0 80upx;
+				.right{
+					color: #e07313;
+					font-size: 26upx;
+				}
+			}
+		}
+	}
+</style>

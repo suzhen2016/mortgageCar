@@ -2,18 +2,18 @@
 	<view class="mine-container">
 		<view class="container-section-new">
 			<view class="person-name">
-				<img src="../../static/image/mine/default.jpg" alt="">
+				<img src="/static/image/mine/default.jpg" alt="">
 				<view class="detail">
 					<view class="account">账号: jkjssd</view>
-					<view class="sign">今日签到</view>
+					<view class="sign" @tap="handleSign">今日签到</view>
 				</view>
 			</view>
 		</view>
 		<view class="menus">
-			<view class="menu-item">
+			<navigator hover-class="none" url="./information" class="menu-item">
 				<img src="../../static/image/mine/glzx.png" alt="">
 				<view>管理中心</view>
-			</view>
+			</navigator>
 			<view class="menu-item">
 				<img src="../../static/image/mine/znxj.png" alt="">
 				<view>站内信件</view>
@@ -76,6 +76,17 @@
 				uni.navigateTo({
 					url
 				})
+			},
+			handleSign() {
+				uni.showToast({
+					title: '签到成功'
+				})
+				setTimeout(() => {
+					uni.navigateTo({
+						url: './signRecord'
+					})
+				},1000)
+				
 			}
 		}
 	}

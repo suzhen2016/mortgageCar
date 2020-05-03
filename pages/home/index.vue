@@ -6,7 +6,7 @@
 			</swiper-item>
 		</swiper>
 		<view class="menus">
-			<view class="menu-item" v-for="(item, index) in menus" :key="index">
+			<view class="menu-item" v-for="(item, index) in menus" :key="index" @tap="goPath(item)">
 				<img :src="item.url" alt="">
 				<view class="menu-name">{{item.text}}</view>
 			</view>
@@ -76,7 +76,9 @@
 					},
 					{
 						url: '/static/image/home/wenda.png',
-						text: '问答'
+						text: '问答',
+						path: '/pages/question/index',
+						type: 'navigate'
 					},
 					{
 						url: '/static/image/home/pinggu.png',
@@ -100,11 +102,32 @@
 		onLoad() {
 
 		},
+		onNavigationBarButtonTap(e) {
+			uni.navigateTo({
+				url: '/pages/address/index'
+			})
+		},
+		onNavigationBarSearchInputClicked() {
+			uni.navigateTo({
+				url: '/pages/search/search'
+			})
+		},
 		methods: {
 			phoneCall() {
 				uni.makePhoneCall({
 				    phoneNumber: '114'
 				});
+			},
+			goPath(item) {
+				if(item.type == 'navigate') {
+					uni.navigateTo({
+						url: item.path
+					})
+				}else{
+					uni.switchTab({
+						url: item.path
+					})
+				}
 			}
 		}
 	}

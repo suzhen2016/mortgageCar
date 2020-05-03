@@ -15,24 +15,8 @@
 							{
 								"text": "全国" ,
 								"float":"left",
-								"fontSize":"12px"
-							}	
-						]
-					}
-				},
-				"h5": {
-					"titleNView": {
-						"searchInput": {
-							"backgroundColor": "#fff",
-							"borderRadius": "6px",
-							"placeholder": "搜索品牌货车型",
-							"disabled": true 
-						},
-						"buttons": [
-							{
-								"text": "全国" ,
-								"float":"left",
-								"fontSize":"12px"
+								"fontSize":"12px",
+								"width": "30px"
 							}	
 						]
 					}
@@ -91,6 +75,48 @@
 			"path": "pages/mine/aboutUs",
 			"style": {
 				"navigationBarTitleText": "关于我们"
+			}
+		},
+		{
+			"path": "pages/address/index",
+			"style": {
+				"navigationBarTitleText": "选择城市"
+			}
+		},
+		{
+			"path": "pages/mine/information",
+			"style": {
+				"navigationBarTitleText": "信息管理",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "退出" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine/signRecord",
+			"style": {
+				"navigationBarTitleText": "签到记录"
+			}
+		},
+		{
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTitleText": "车源搜索"
+			}
+		},
+		{
+			"path": "pages/question/index",
+			"style": {
+				"navigationBarTitleText": "问答"
 			}
 		}
 	],
