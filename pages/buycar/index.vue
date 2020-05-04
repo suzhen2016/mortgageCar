@@ -7,7 +7,7 @@
 				<input type="text" v-model="keyWord" placeholder="请输入关键词" class="search-input" maxlength="20"/>
 			</view>
 			<view class="car-list">
-				<view class="car-item" v-for="(item, index) in 10" :key="index">
+				<navigator hover-class="none" url="/pages/carDetail/index" class="car-item" v-for="(item, index) in 10" :key="index">
 					<img src="https://jjtdyc.oss-cn-shenzhen.aliyuncs.com/upload/202005/01/2123337156997.jpeg" alt="">
 					<view class="right">
 						<view class="car-name">
@@ -23,7 +23,7 @@
 							<view class="money-num">￥14.30万</view>
 						</view>
 					</view>
-				</view>
+				</navigator>
 			</view>
 		</view>
 	</mescroll-uni>

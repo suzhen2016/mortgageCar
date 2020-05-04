@@ -5,11 +5,22 @@
 				<text>{{item.value}}</text>
 			</view>
 		</scroll-view>
+		<view class="question-content">
+			<swiper class="swiper" :current="selectedIndex" @change="swiperChange">
+				<swiper-item v-for="(item, index) in tabs" :key="index">
+					<mescroll-item :i="parseFloat(item.key)" :index="selectedIndex"></mescroll-item>
+				</swiper-item>
+			</swiper>
+		</view>
 	</view>
 </template>
 
 <script>
+	import MescrollItem from "./mescroll-swiper-item.vue";
 	export default {
+		components: {
+			MescrollItem
+		},
 		data() {
 			return {
 				selectedIndex: 0,
@@ -58,6 +69,9 @@
 
 <style lang="scss">
 	.question-container{
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
 		.tab-box{
 			display: flex;
 			height: 80upx;
@@ -71,9 +85,25 @@
 				text-align: center;
 				color: #999;
 				font-size: 24upx;
+				position: relative;
 				&.active{
-					border-bottom: 4px solid #BB271D;
+					&:after{
+						content: '';
+						position: absolute;
+						bottom: 0;
+						left: 50%;
+						transform: translateX(-50%);
+						width: 85%;
+						height: 4upx;
+						background-color: #BB271D;
+					}
 				}
+			}
+		}
+		.question-content{
+			flex: 1;
+			.swiper{
+				height: 100%;
 			}
 		}
 	}

@@ -28,7 +28,7 @@
 			<view class="tel-num" @tap="phoneCall">官方热线：400-087-0081</view>
 		</view>
 		<view class="car-list">
-			<view class="car-item" v-for="(item, index) in 20" :key="index">
+			<navigator hover-class="none" url="/pages/carDetail/index" class="car-item" v-for="(item, index) in 20" :key="index">
 				<img src="https://jjtdyc.oss-cn-shenzhen.aliyuncs.com/upload/202005/01/2123337156997.jpeg" alt="">
 				<view class="right">
 					<view class="car-name">11年雷克萨斯RX</view>
@@ -38,7 +38,7 @@
 						<view class="money-num">￥14.30万</view>
 					</view>
 				</view>
-			</view>
+			</navigator>
 		</view>
 	</view>
 </template>
@@ -52,11 +52,15 @@
 				menus: [
 					{
 						url: '/static/image/home/buy-car.png',
-						text: '买车'
+						text: '买车',
+						path: '/pages/buycar/index',
+						type: 'switchTab'
 					},
 					{
 						url: '/static/image/home/sale.png',
-						text: '卖车'
+						text: '卖车',
+						path: '/pages/sale/index',
+						type: 'switchTab'
 					},
 					{
 						url: '/static/image/home/app.png',
@@ -82,7 +86,9 @@
 					},
 					{
 						url: '/static/image/home/pinggu.png',
-						text: '评估'
+						text: '评估',
+						path: '/pages/evaluate/index',
+						type: 'switchTab'
 					}
 				],
 				articles: [

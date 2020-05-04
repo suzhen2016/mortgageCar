@@ -118,6 +118,28 @@
 			"style": {
 				"navigationBarTitleText": "问答"
 			}
+		},
+		{
+			"path": "pages/carDetail/index",
+			"style": {
+				"navigationBarTitleText": "详情",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"type": "menu" ,
+								"float":"right"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/carDetail/barGain",
+			"style": {
+				"navigationBarTitleText": "立即砍价"
+			}
 		}
 	],
 	"globalStyle": {
