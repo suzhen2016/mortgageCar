@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "卖车",
+  "usingComponents": {
+    "image-drag-sort": "/components/image-drag-sort/index",
+    "u-editor": "/components/editor/editor"
+  }
+}

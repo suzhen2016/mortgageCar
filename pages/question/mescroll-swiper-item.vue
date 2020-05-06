@@ -1,7 +1,7 @@
 <template>
 	<mescroll-uni :fixed="false" top="0" :down="downOption" @down="downCallback" :up="upOption" @up="upCallback" @init="mescrollInit">
 		<view class="question-list">
-			<view class="question-item" v-for="(item, index) in list" :key="index">
+			<view class="question-item" v-for="(item, index) in list" :key="index" @tap="goDetail(item)">
 				<view class="question-title">抵押车安保措施怎么做？</view>
 				<view class="question-footer">
 					<view class="question-time">2019-09-16</view>
@@ -39,7 +39,7 @@
 					auto:false, // 不自动加载
 					noMoreSize: 4, 
 					empty:{
-						tip: '~ 空空如也 ~', // 提示
+						tip: '抱歉,暂相关信息', // 提示
 						// btnText: '去看看'
 					}
 				},
@@ -52,6 +52,11 @@
 			}
 		},
 		methods: {
+			goDetail(item) {
+				uni.navigateTo({
+					url: './questionDetail'
+				})
+			},
 			// mescroll组件初始化的回调,可获取到mescroll对象
 			mescrollInit(mescroll) {
 				this.mescroll = mescroll;

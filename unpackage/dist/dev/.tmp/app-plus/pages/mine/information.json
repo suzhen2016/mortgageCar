@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "信息管理",
+  "titleNView": {
+    "buttons": [
+      {
+        "text": "退出",
+        "float": "right",
+        "fontSize": "14px",
+        "width": "40px"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

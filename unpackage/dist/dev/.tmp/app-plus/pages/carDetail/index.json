@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "详情",
+  "titleNView": {
+    "buttons": [
+      {
+        "type": "menu",
+        "float": "right"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

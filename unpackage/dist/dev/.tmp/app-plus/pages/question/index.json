@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "问答",
+  "usingComponents": {
+    "mescroll-item": "/pages/question/mescroll-swiper-item"
+  }
+}

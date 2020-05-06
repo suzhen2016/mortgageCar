@@ -1,0 +1,19 @@
+{
+  "titleNView": {
+    "searchInput": {
+      "backgroundColor": "#fff",
+      "borderRadius": "6px",
+      "placeholder": "搜索品牌货车型",
+      "disabled": true
+    },
+    "buttons": [
+      {
+        "text": "全国",
+        "float": "left",
+        "fontSize": "12px",
+        "width": "30px"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

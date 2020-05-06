@@ -1,7 +1,7 @@
 <template>
 	<view class="evaluate-container">
 		<view class="pinggu_logo">
-			<img src="../../static/image/mine/cjpg2.png" alt="">
+			<image src="/static/image/mine/cjpg2.png" mode="aspectFit"></image>
 			<view>实时精准评估抵押车</view>
 		</view>
 		<view class="filter-form">
@@ -208,6 +208,10 @@
 			padding: 20upx 0;
 			font-size: 32upx;
 			line-height: 52upx;
+			image{
+				width: 228upx;
+				height: 88upx;
+			}
 		}
 		.filter-form{
 			box-shadow: 0px 4upx 20upx #e0e0e0;
@@ -241,6 +245,7 @@
 							border:1px solid #eee;
 							margin-right: 20upx;
 							width: 200upx;
+							text-indent: 10upx;
 						}
 					}
 				}

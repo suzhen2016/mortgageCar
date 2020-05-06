@@ -47,7 +47,7 @@
 			</view>
 		</view>
 		<view class="footer-container">
-			<marquee style="color: white;background: rgba(0, 0, 0, 0.5); height:50upx;line-height: 50upx;">安全提示：久久泰抵押车是第三方信息平台，推荐拨打官方客服电话400-087-0081，核实后交易。因您私下交易造成的损失，本平台不承担。</marquee>
+			<marquee style="color: white;background: rgba(0, 0, 0, 0.5); height:50upx;line-height: 50upx;overflow: hidden;">安全提示：久久泰抵押车是第三方信息平台，推荐拨打官方客服电话400-087-0081，核实后交易。因您私下交易造成的损失，本平台不承担。</marquee>
 			<view class="footer">
 				<view class="footer-item" @tap="phoneCall">
 					<img src="/static/image/mine/bigimg-zxdijia.png" alt="">
@@ -127,6 +127,7 @@
 <style lang="scss">
 	.cardetail-container{
 		font-size: 28upx;
+		padding-bottom: 100upx;
 		.swiper{
 			height: 400upx;
 			.swiper-item{
@@ -172,7 +173,7 @@
 		.show-content{
 			background-color: #fff;
 			box-shadow: 0px 4upx 20upx #e0e0e0;
-			padding: 0px 40upx;
+			padding: 0px 40upx 40upx;
 			margin-bottom: 60upx;
 		}
 		.car-name{

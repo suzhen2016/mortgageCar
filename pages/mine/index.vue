@@ -2,26 +2,29 @@
 	<view class="mine-container">
 		<view class="container-section-new">
 			<view class="person-name">
-				<img src="/static/image/mine/default.jpg" alt="">
+				<image src="/static/image/mine/default.jpg" mode=""></image>
 				<view class="detail">
-					<view class="account">账号: jkjssd</view>
-					<view class="sign" @tap="handleSign">今日签到</view>
+					<view class="account" v-if="false">账号: jkjssd</view>
+					<view class="account" v-if="true">昵称</view>
+					<view class="sign" @tap="handleSign" v-if="false">今日签到</view>
+					<navigator hover-class="none" url="/pages/login/login" class="sign" v-if="true">点击登录</navigator>
+					<navigator hover-class="none" url="/pages/login/register" class="sign" v-if="true">注册</navigator>
 				</view>
 			</view>
 		</view>
 		<view class="menus">
 			<navigator hover-class="none" url="./information" class="menu-item">
-				<img src="../../static/image/mine/glzx.png" alt="">
+				<image src="/static/image/mine/glzx.png" mode="aspectFit"></image>
 				<view>管理中心</view>
 			</navigator>
 			<view class="menu-item">
-				<img src="../../static/image/mine/znxj.png" alt="">
+				<image src="/static/image/mine/znxj.png" mode="aspectFit"></image>
 				<view>站内信件</view>
 			</view>
 		</view>
 		<view class="list">
 			<view class="list-item" v-for="(item, index) in list" :key="index" @tap="goPath(item.url)">
-				<img :src="item.img" alt="">
+				<image :src="item.img" mode="aspectFit"></image>
 				<view>{{item.text}}</view>
 			</view>
 		</view>
@@ -105,7 +108,7 @@
 				display: flex;
 				align-items: center;
 				margin-top: -40upx;
-				img{
+				image{
 					width: 150upx;
 					height: 150upx;
 					margin-right: 20upx;
@@ -118,12 +121,14 @@
 						font-size: 28upx;
 					}
 					.sign{
+						display: inline-block;
 						background: #DD756A;
 						color: white;
 						font-size: 30upx;
 						border-radius: 40upx;
 						padding: 10upx 24upx;
 						margin-top: 20upx;
+						margin-right: 20upx;
 					}
 				}
 			}
@@ -135,8 +140,9 @@
 				margin: 30upx 10%;
 				text-align: center;
 				font-size: 28upx;
-				img{
+				image{
 					width: 80upx;
+					height: 60upx;
 					margin-bottom: 10upx;
 				}
 			}
@@ -150,7 +156,7 @@
 				color: #2F3540;
 				font-size: 28upx;
 				height: 110upx;
-				img{
+				image{
 					width: 40upx;
 					height: 40upx;
 					margin-right: 40upx;

@@ -2,7 +2,7 @@
 	<view class="information-container">
 		<view class="container-section-new">
 			<view class="person-name">
-				<img src="/static/image/mine/default.jpg" alt="">
+				<image src="/static/image/mine/default.jpg" mode="aspectFit"></image>
 				<view class="detail">
 					<view class="account">账号: jkjssd</view>
 					<view class="level">会员组: 个人会员</view>
@@ -90,7 +90,7 @@
 				display: flex;
 				align-items: center;
 				margin-top: -40upx;
-				img{
+				image{
 					width: 150upx;
 					height: 150upx;
 					margin-right: 20upx;

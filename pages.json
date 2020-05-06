@@ -120,6 +120,12 @@
 			}
 		},
 		{
+			"path": "pages/question/questionDetail",
+			"style": {
+				"navigationBarTitleText": "题目详情"
+			}
+		},
+		{
 			"path": "pages/carDetail/index",
 			"style": {
 				"navigationBarTitleText": "详情",
@@ -139,6 +145,28 @@
 			"path": "pages/carDetail/barGain",
 			"style": {
 				"navigationBarTitleText": "立即砍价"
+			}
+		},
+		{
+			"path": "pages/news/index",
+			"style": {
+				"navigationBarTitleText": "新闻"
+			}
+		},
+		{
+			"path": "pages/news/newDetail",
+			"style": {
+				"navigationBarTitleText": "新闻详情",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"type": "menu" ,
+								"float":"right"
+							}	
+						]
+					}
+				}
 			}
 		}
 	],

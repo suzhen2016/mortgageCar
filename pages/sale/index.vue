@@ -209,6 +209,7 @@
 					width: 160upx;
 					height: 64upx;
 					margin: 0 12upx;
+					text-indent: 10upx;
 				}
 				.ql-container{
 					border: 1px solid rgb(178,178,178);

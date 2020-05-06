@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "买车",
+  "usingComponents": {
+    "h-mfilter-dropdown": "/components/HM-filterDropdown/HM-filterDropdown",
+    "mescroll-uni": "/components/mescroll-uni/mescroll-uni"
+  }
+}

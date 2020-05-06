@@ -7,13 +7,14 @@
 		</swiper>
 		<view class="menus">
 			<view class="menu-item" v-for="(item, index) in menus" :key="index" @tap="goPath(item)">
-				<img :src="item.url" alt="">
+				<image :src="item.url" mode="aspectFit"></image>
 				<view class="menu-name">{{item.text}}</view>
 			</view>
 		</view>
 		<view class="new-article">
 			<view class="left">
-				<img src="https://www.jjtdyc.com/static/picture/picture/guanfang2.png" alt="">
+				<!-- <img src="https://www.jjtdyc.com/static/picture/picture/guanfang2.png" alt=""> -->
+				<image src="https://www.jjtdyc.com/static/picture/picture/guanfang2.png" mode="aspectFit"></image>
 			</view>
 			<view class="right">
 				<view class="roll-wrap">
@@ -29,7 +30,8 @@
 		</view>
 		<view class="car-list">
 			<navigator hover-class="none" url="/pages/carDetail/index" class="car-item" v-for="(item, index) in 20" :key="index">
-				<img src="https://jjtdyc.oss-cn-shenzhen.aliyuncs.com/upload/202005/01/2123337156997.jpeg" alt="">
+				<!-- <img src="https://jjtdyc.oss-cn-shenzhen.aliyuncs.com/upload/202005/01/2123337156997.jpeg" alt=""> -->
+				<image src="https://jjtdyc.oss-cn-shenzhen.aliyuncs.com/upload/202005/01/2123337156997.jpeg" mode="aspectFit"></image>
 				<view class="right">
 					<view class="car-name">11年雷克萨斯RX</view>
 					<view class="time">上牌日期：2011年05月</view>
@@ -76,7 +78,9 @@
 					},
 					{
 						url: '/static/image/home/news.png',
-						text: '资讯'
+						text: '资讯',
+						path: '/pages/news/index',
+						type: 'navigate'
 					},
 					{
 						url: '/static/image/home/wenda.png',
@@ -162,7 +166,7 @@
 				align-items: center;
 				width: 25%;
 				margin-bottom: 10upx;
-				img{
+				image{
 					width: 100upx;
 					height: 90upx;
 				}
@@ -183,8 +187,9 @@
 			display: flex;
 			.left{
 				padding-left: 1%;
-				img{
+				image{
 					width: 98upx;
+					height: 86upx;
 					margin: 20upx;
 				}
 			}
@@ -227,7 +232,7 @@
 				display: flex;
 				font-size: 24upx;
 				border: 1upx solid #d8d8d8;
-				img{
+				image{
 					width: 154upx;
 					height: 100%;
 				}
