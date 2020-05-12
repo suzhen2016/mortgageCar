@@ -168,6 +168,102 @@
 					}
 				}
 			}
+		},
+		{
+			"path": "pages/buying/index",
+			"style": {
+				"navigationBarTitleText": "求购信息",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "发布" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/buying/detail",
+			"style": {
+				"navigationBarTitleText": "详情"
+			}
+		},
+		{
+			"path": "pages/buying/publish",
+			"style": {
+				"navigationBarTitleText": "求购发布",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/message/index",
+			"style": {
+				"navigationBarTitleText": "站内信件",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "发信" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/message/sendMessage",
+			"style": {
+				"navigationBarTitleText": "发送信件",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/carSource/index",
+			"style": {
+				"navigationBarTitleText": "车源管理",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "发布" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
 		}
 	],
 	"globalStyle": {

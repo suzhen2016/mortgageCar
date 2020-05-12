@@ -17,10 +17,10 @@
 				<image src="/static/image/mine/glzx.png" mode="aspectFit"></image>
 				<view>管理中心</view>
 			</navigator>
-			<view class="menu-item">
+			<navigator hover-class="none" url="/pages/message/index" class="menu-item">
 				<image src="/static/image/mine/znxj.png" mode="aspectFit"></image>
 				<view>站内信件</view>
-			</view>
+			</navigator>
 		</view>
 		<view class="list">
 			<view class="list-item" v-for="(item, index) in list" :key="index" @tap="goPath(item.url)">
@@ -39,7 +39,7 @@
 					{
 						img: '/static/image/mine/car.png',
 						text: '车源管理',
-						url: ''
+						url: '/pages/carSource/index'
 					},
 					{
 						img: '/static/image/mine/group.png',

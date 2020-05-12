@@ -70,11 +70,15 @@
 					},
 					{
 						url: '/static/image/home/buy.png',
-						text: '求购'
+						text: '求购',
+						path: '/pages/buying/index',
+						type: 'navigate'
 					},
 					{
 						url: '/static/image/home/paimai.png',
-						text: '找车'
+						text: '找车',
+						path: '/pages/search/search',
+						type: 'navigate'
 					},
 					{
 						url: '/static/image/home/news.png',

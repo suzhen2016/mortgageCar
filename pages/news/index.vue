@@ -7,7 +7,7 @@
 					<view class="excerpt wordbreak">有很多朋友刚了解抵押车的时候，在网络上看了很多关于抵押车的文章，觉得抵押车不过户有风险，价格就很低，听说一辆抵押车的...</view>
 					<view class="author list-inline">
 						<view>2020-05-06</view>
-						<view>阅读量 : 5661</view>
+						<view class="pageview">阅读量 : 5661</view>
 					</view>
 				</view>
 				<view class="newsimg">
@@ -55,7 +55,6 @@
 				//联网加载数据
 				this.getListDataFromNet(mescroll.num, mescroll.size, (curPageData)=>{
 					//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
-					console.log("i="+this.i+", mescroll.num=" + mescroll.num + ", mescroll.size=" + mescroll.size + ", curPageData.length=" + curPageData.length);
 					mescroll.endSuccess(curPageData.length);
 					//设置列表数据
 					if(mescroll.num == 1) this.list = []; //如果是第一页需手动制空列表
@@ -121,6 +120,9 @@
 					view{
 						padding-right: 10upx;
 						padding-left: 10upx;
+					}
+					.pageview{
+						color: #BB271D;
 					}
 				}
 			}
