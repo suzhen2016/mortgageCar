@@ -13,41 +13,41 @@
 			<navigator hover-class="none" url="./signRecord" class="list-item">
 				<view>签到记录</view>
 			</navigator>
-			<view class="list-item">
+			<navigator hover-class="none" url="/pages/capitalRecord/index" class="list-item">
 				<view>我的资金</view>
 				<view class="right">￥0.00元</view>
-			</view>
-			<view class="list-item">
+			</navigator>
+			<navigator hover-class="none" url="./coinRecord" class="list-item">
 				<view>我的金币</view>
 				<view class="right">4枚</view>
-			</view>
-			<view class="list-item">
+			</navigator>
+			<navigator hover-class="none" url="/pages/orderCar/index" class="list-item">
 				<view>我的定金</view>
-			</view>
-			<view class="list-item">
+			</navigator>
+			<navigator hover-class="none" url="/pages/ordergps/index" class="list-item">
 				<view>我的订单</view>
-			</view>
-			<view class="list-item">
+			</navigator>
+			<navigator hover-class="none" url="./validate" class="list-item">
 				<view>会员认证</view>
-			</view>
-			<view class="list-item">
+			</navigator>
+			<!-- <view class="list-item">
 				<view>团购订单</view>
-			</view>
-			<view class="list-item">
+			</view> -->
+			<navigator hover-class="none" url="./coupon" class="list-item">
 				<view>领券中心</view>
-			</view>
-			<view class="list-item">
+			</navigator>
+			<navigator hover-class="none" url="/pages/capitalRecord/index" class="list-item">
 				<view>资金流水</view>
-			</view>
-			<view class="list-item">
+			</navigator>
+			<navigator hover-class="none" url="./payRecord" class="list-item">
 				<view>支付记录</view>
-			</view>
-			<view class="list-item">
+			</navigator>
+			<navigator hover-class="none" url="./coinRecord" class="list-item">
 				<view>金币管理</view>
-			</view>
-			<view class="list-item">
+			</navigator>
+			<navigator hover-class="none" url="./address" class="list-item">
 				<view>收货地址</view>
-			</view>
+			</navigator>
 			<view class="list-item">
 				<view>车源收藏</view>
 			</view>

@@ -1,8 +1,5 @@
 <template>
-	<view class="message-container">
-		<div class="input-container">
-			<input type="text" v-model="keyWord" placeholder="输入关键词索"/>
-		</div>
+	<view class="question-container">
 		<scroll-view scroll-x scroll-with-animation class="tab-box" :scroll-left="scrollLeft">
 			<view class="tab-item" v-for="(item, index) in tabs" :key="index" :class="{'active': selectedIndex == index}" :data-current="index" @tap="handleSelect">
 				<text>{{item.value}}</text>
@@ -26,36 +23,27 @@
 		},
 		data() {
 			return {
-				keyWord: '',
 				selectedIndex: 0,
 				scrollLeft: '',
 				tabs: [
 					{
 						key: 0,
-						value: '进行中 0'
+						value: '全部问题'
 					},
 					{
 						key: 1,
-						value: '审核中 0'
+						value: '等待解决'
 					},
 					{
 						key: 2,
-						value: '未通过 0'
-					},
-					{
-						key: 3,
-						value: '过期|封贴 0'
-					},
-					{
-						key: 4,
-						value: '已成交 0'
+						value: '已经解决'
 					}
 				]
 			}
 		},
 		onNavigationBarButtonTap() {
 			uni.navigateTo({
-				url: './publish'
+				url: '/pages/buying/publish'
 			})
 		},
 		methods: {
@@ -85,19 +73,10 @@
 </script>
 
 <style lang="scss">
-	.message-container{
+	.question-container{
+		display: flex;
+		flex-direction: column;
 		height: 100vh;
-		.input-container{
-			padding: 32upx;
-			input{
-				background: #f0f0f0 url(../../static/image/mine/ico-search.png) no-repeat 12upx center;
-				background-size: 32upx 32upx;
-				padding: 0 56upx;
-				border: none;
-				height: 64upx;
-				line-height: 64upx;
-			}
-		}
 		.tab-box{
 			display: flex;
 			height: 80upx;
@@ -127,7 +106,7 @@
 			}
 		}
 		.question-content{
-			height: calc(100vh - 356upx);
+			flex: 1;
 			.swiper{
 				height: 100%;
 			}

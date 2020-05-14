@@ -264,6 +264,296 @@
 					}
 				}
 			}
+		},
+		{
+			"path": "pages/carSource/publish",
+			"style": {
+				"navigationBarTitleText": "车源发布",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/questionManage/index",
+			"style": {
+				"navigationBarTitleText": "问答管理",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "发布" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/questionManage/publish",
+			"style": {
+				"navigationBarTitleText": "问答发布",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/buyingManage/index",
+			"style": {
+				"navigationBarTitleText": "求购管理",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "发布" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine/coinRecord",
+			"style": {
+				"navigationBarTitleText": "金币记录",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "购买" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/capitalRecord/index",
+			"style": {
+				"navigationBarTitleText": "资金流水",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "充值" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/capitalRecord/charge",
+			"style": {
+				"navigationBarTitleText": "在线支付",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/orderCar/index",
+			"style": {
+				"navigationBarTitleText": "我的定金",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "选择" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "80px",
+								"select": true
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/ordergps/index",
+			"style": {
+				"navigationBarTitleText": "我的GPS",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "选择" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "80px",
+								"select": true
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine/validate",
+			"style": {
+				"navigationBarTitleText": "认证类型",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine/coupon",
+			"style": {
+				"navigationBarTitleText": "领券中心",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "我的" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine/myCoupon",
+			"style": {
+				"navigationBarTitleText": "我的优惠券",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "领券" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine/payRecord",
+			"style": {
+				"navigationBarTitleText": "支付记录",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "支付" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine/address",
+			"style": {
+				"navigationBarTitleText": "地址管理",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "添加" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine/addAddress",
+			"style": {
+				"navigationBarTitleText": "地址添加",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine/editAddress",
+			"style": {
+				"navigationBarTitleText": "地址修改",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
 		}
 	],
 	"globalStyle": {

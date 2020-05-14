@@ -1,4 +1,12 @@
 <template>
+</template>
+
+<script>
+</script>
+
+<style>
+</style>
+<template>
 	<view class="message-container">
 		<div class="input-container">
 			<input type="text" v-model="keyWord" placeholder="输入关键词索"/>
@@ -26,39 +34,75 @@
 		},
 		data() {
 			return {
-				keyWord: '',
-				selectedIndex: 0,
-				scrollLeft: '',
-				tabs: [
-					{
-						key: 0,
-						value: '进行中 0'
-					},
+				typeIndex: '',
+				selectList: [
 					{
 						key: 1,
-						value: '审核中 0'
+						text: '批量快递'
 					},
 					{
 						key: 2,
-						value: '未通过 0'
+						text: '我的快递'
+					}
+				],
+				keyWord: '',
+				scrollLeft: '',
+				selectedIndex: '',
+				tabs: [
+					{
+						key: 0,
+						value: '全部订单'
+					},
+					{
+						key: 1,
+						value: '待确认'
+					},
+					{
+						key: 2,
+						value: '代付款'
 					},
 					{
 						key: 3,
-						value: '过期|封贴 0'
+						value: '代发货'
 					},
 					{
 						key: 4,
-						value: '已成交 0'
+						value: '待收货'
 					}
 				]
 			}
 		},
-		onNavigationBarButtonTap() {
-			uni.navigateTo({
-				url: './publish'
-			})
+		onReady() {
+			// this.setStyle()
+		},
+		onNavigationBarButtonTap(e) {
+			uni.showActionSheet({
+			    itemList: ['批量快递', '我的快递'],
+			    success: (res) => {
+					this.typeIndex = res.tapIndex
+					this.setStyle()
+			    },
+			    fail: function (res) {
+			       
+			    }
+			});
 		},
 		methods: {
+			setStyle() {
+				// #ifdef APP-PLUS
+				let pages = getCurrentPages();
+				let page = pages[pages.length - 1];
+				let currentWebview = page.$getAppWebview();
+				let titleNView = currentWebview.getStyle().titleNView;
+				titleNView.buttons[0].text = this.selectList[this.typeIndex].text;
+				currentWebview.setStyle({
+					titleNView: titleNView
+				});
+				// #endif
+				// #ifdef H5
+				document.getElementsByClassName('uni-btn-icon')[1].innerText = this.selectList[this.typeIndex].text;
+				// #endif
+			},
 			handleSelect(e) {
 				let cur = e.currentTarget.dataset.current;
 				if (this.selectedIndex == cur) {
@@ -106,7 +150,7 @@
 			white-space: nowrap;
 			.tab-item{
 				display: inline-block;
-				width: 33%;
+				padding:  0 40upx;
 				line-height: 80upx;
 				text-align: center;
 				color: #999;

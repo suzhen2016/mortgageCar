@@ -114,7 +114,7 @@
 			}
 		},
 		onLoad() {
-
+			this.$api.getNewTypes()
 		},
 		onNavigationBarButtonTap(e) {
 			uni.navigateTo({

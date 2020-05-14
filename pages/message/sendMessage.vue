@@ -11,7 +11,7 @@
 		<view class="ui-form">内容<em>*</em></view>
 		<uEditor class="ql-container"></uEditor>
 		<view class="ui-form">选项</view>
-		<view>
+		<view style="font-size: 26upx;">
 			<radio-group @change="radioChange">
 				<label class="radio-item" v-for="(item, index) in items" :key="item.value">
 					<view>

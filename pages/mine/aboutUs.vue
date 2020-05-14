@@ -13,7 +13,8 @@
 
 <style lang="scss">
 	.about-us{
-		font-size: 32upx;
+		padding: 40upx;
+		font-size: 30upx;
 		text-indent: 40upx;
 		line-height: 180%;
 		view{

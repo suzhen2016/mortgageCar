@@ -23,7 +23,7 @@
 			</navigator>
 		</view>
 		<view class="list">
-			<view class="list-item" v-for="(item, index) in list" :key="index" @tap="goPath(item.url)">
+			<view class="list-item" v-for="(item, index) in list" :key="index" @tap="goPath(item.url, index)">
 				<image :src="item.img" mode="aspectFit"></image>
 				<view>{{item.text}}</view>
 			</view>
@@ -41,11 +41,11 @@
 						text: '车源管理',
 						url: '/pages/carSource/index'
 					},
-					{
-						img: '/static/image/mine/group.png',
-						text: '团购管理',
-						url: ''
-					},
+					// {
+					// 	img: '/static/image/mine/group.png',
+					// 	text: '团购管理',
+					// 	url: ''
+					// },
 					{
 						img: '/static/image/mine/news.png',
 						text: '新闻管理',
@@ -54,17 +54,17 @@
 					{
 						img: '/static/image/mine/question.png',
 						text: '问答管理',
-						url: ''
+						url: '/pages/questionManage/index'
 					},
 					{
 						img: '/static/image/mine/shop.png',
 						text: '求购管理',
-						url: ''
+						url: '/pages/buyingManage/index'
 					},
 					{
 						img: '/static/image/mine/phone.png',
 						text: '客服电话：400-087-0081',
-						url: ''
+						url: '400-087-0081'
 					},
 					{
 						img: '/static/image/mine/about.png',
@@ -75,10 +75,23 @@
 			}
 		},
 		methods: {
-			goPath(url) {
-				uni.navigateTo({
-					url
-				})
+			goPath(url, index) {
+				if(url) {
+					if(index == 5) {
+						uni.makePhoneCall({
+							 phoneNumber: url
+						})
+					}else{
+						uni.navigateTo({
+							url
+						})
+					}
+				}else{
+					uni.showToast({
+						title: '您所在的会员组无访问权限',
+						icon: 'none'
+					})
+				}
 			},
 			handleSign() {
 				uni.showToast({

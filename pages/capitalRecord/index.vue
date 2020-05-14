@@ -1,8 +1,5 @@
 <template>
 	<view class="message-container">
-		<div class="input-container">
-			<input type="text" v-model="keyWord" placeholder="输入关键词索"/>
-		</div>
 		<scroll-view scroll-x scroll-with-animation class="tab-box" :scroll-left="scrollLeft">
 			<view class="tab-item" v-for="(item, index) in tabs" :key="index" :class="{'active': selectedIndex == index}" :data-current="index" @tap="handleSelect">
 				<text>{{item.value}}</text>
@@ -26,36 +23,27 @@
 		},
 		data() {
 			return {
-				keyWord: '',
 				selectedIndex: 0,
 				scrollLeft: '',
 				tabs: [
 					{
 						key: 0,
-						value: '进行中 0'
+						value: '资金流水'
 					},
 					{
 						key: 1,
-						value: '审核中 0'
+						value: '信息付费'
 					},
 					{
 						key: 2,
-						value: '未通过 0'
-					},
-					{
-						key: 3,
-						value: '过期|封贴 0'
-					},
-					{
-						key: 4,
-						value: '已成交 0'
+						value: '打赏记录'
 					}
 				]
 			}
 		},
 		onNavigationBarButtonTap() {
 			uni.navigateTo({
-				url: './publish'
+				url: './charge'
 			})
 		},
 		methods: {
@@ -127,7 +115,7 @@
 			}
 		}
 		.question-content{
-			height: calc(100vh - 356upx);
+			height: 100%;
 			.swiper{
 				height: 100%;
 			}
