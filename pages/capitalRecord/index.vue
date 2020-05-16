@@ -115,7 +115,7 @@
 			}
 		}
 		.question-content{
-			height: 100%;
+			height: calc(100vh - 100upx);
 			.swiper{
 				height: 100%;
 			}

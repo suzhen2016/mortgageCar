@@ -48,21 +48,21 @@
 			<navigator hover-class="none" url="./address" class="list-item">
 				<view>收货地址</view>
 			</navigator>
-			<view class="list-item">
+			<navigator hover-class="none" url="./favorite" class="list-item">
 				<view>车源收藏</view>
-			</view>
-			<view class="list-item">
+			</navigator>
+			<navigator hover-class="none" url="./oauth" class="list-item">
 				<view>一键登录</view>
-			</view>
-			<view class="list-item">
+			</navigator>
+			<navigator hover-class="none" url="./weixin" class="list-item">
 				<view>微信关注</view>
-			</view>
-			<view class="list-item">
+			</navigator>
+			<navigator hover-class="none" url="./editAccount" class="list-item">
 				<view>修改资料</view>
-			</view>
-			<view class="list-item">
+			</navigator>
+			<navigator hover-class="none" url="./accountDetail" class="list-item">
 				<view>账户详情</view>
-			</view>
+			</navigator>
 		</view>
 	</view>
 </template>

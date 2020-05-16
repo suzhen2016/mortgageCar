@@ -30,8 +30,7 @@
 		</view>
 		<view class="car-list">
 			<navigator hover-class="none" url="/pages/carDetail/index" class="car-item" v-for="(item, index) in 20" :key="index">
-				<!-- <img src="https://jjtdyc.oss-cn-shenzhen.aliyuncs.com/upload/202005/01/2123337156997.jpeg" alt=""> -->
-				<image src="https://jjtdyc.oss-cn-shenzhen.aliyuncs.com/upload/202005/01/2123337156997.jpeg" mode="aspectFit"></image>
+				<img src="https://www.jjtdyc.com/jjtdyc1.jpg" mode="aspectFit" />
 				<view class="right">
 					<view class="car-name">11年雷克萨斯RX</view>
 					<view class="time">上牌日期：2011年05月</view>
@@ -114,7 +113,7 @@
 			}
 		},
 		onLoad() {
-			this.$api.getNewTypes()
+			
 		},
 		onNavigationBarButtonTap(e) {
 			uni.navigateTo({
@@ -133,6 +132,9 @@
 				});
 			},
 			goPath(item) {
+				if(!item.path) {
+					return this.$alert('暂未开放')
+				}
 				if(item.type == 'navigate') {
 					uni.navigateTo({
 						url: item.path
@@ -236,9 +238,10 @@
 				display: flex;
 				font-size: 24upx;
 				border: 1upx solid #d8d8d8;
-				image{
+				img{
 					width: 154upx;
-					height: 100%;
+					height: 140upx;
+					object-fit: center;
 				}
 				.right{
 					flex: 1;

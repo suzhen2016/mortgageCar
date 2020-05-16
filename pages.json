@@ -72,9 +72,9 @@
 			}
 		},
 		{
-			"path": "pages/mine/aboutUs",
+			"path": "pages/mine/avatar",
 			"style": {
-				"navigationBarTitleText": "关于我们"
+				"navigationBarTitleText": "上传头像"
 			}
 		},
 		{
@@ -553,6 +553,132 @@
 						]
 					}
 				}
+			}
+		},
+		{
+			"path": "pages/mine/favorite",
+			"style": {
+				"navigationBarTitleText": "收藏管理"
+			}
+		},
+		{
+			"path": "pages/mine/oauth",
+			"style": {
+				"navigationBarTitleText": "一键登录"
+			}
+		},
+		{
+			"path": "pages/mine/weixin",
+			"style": {
+				"navigationBarTitleText": "微信关注"
+			}
+		},
+		{
+			"path": "pages/mine/editAccount",
+			"style": {
+				"navigationBarTitleText": "修改资料",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine/accountDetail",
+			"style": {
+				"navigationBarTitleText": "账户详情",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "升级" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine/grade",
+			"style": {
+				"navigationBarTitleText": "会员升级",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "账户" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine/send",
+			"style": {
+				"navigationBarTitleText": "修改手机",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine/findPwd",
+			"style": {
+				"navigationBarTitleText": "找回密码",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine/about/index",
+			"style": {
+				"navigationBarTitleText": "关于网站"
+			}
+		},
+		{
+			"path": "pages/mine/about/aboutUs",
+			"style": {
+				"navigationBarTitleText": "关于我们"
+			}
+		},
+		{
+			"path": "pages/mine/about/principle",
+			"style": {
+				"navigationBarTitleText": "平台原理"
 			}
 		}
 	],

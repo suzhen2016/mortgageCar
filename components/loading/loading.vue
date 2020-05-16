@@ -1,7 +1,7 @@
 <template>
 	<view class="loading_box" v-show="is_loading=='1'" @click="switch_loading">
 		<view class="loading">
-			<image class="rotate" src="/static/loading2.png" mode=""></image>
+			<image class="rotate" src="/static/loading.png" mode=""></image>
 		</view>
 
 		<!-- <view class="loading">

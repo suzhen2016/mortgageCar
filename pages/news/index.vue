@@ -1,17 +1,17 @@
 <template>
 	<mescroll-uni :fixed="false" top="0" :down="downOption" @down="downCallback" :up="upOption" @up="upCallback" @init="mescrollInit">
 		<view class="news-list">
-			<navigator hover-class="none" url="./newDetail" class="news-item" v-for="(item, index) in list" :key="index" >
+			<navigator hover-class="none" :url="`./newDetail?id=${item.id}`" class="news-item" v-for="(item, index) in list" :key="index" >
 				<view class="summary">
-					<view class="title">为什么抵押车的价格会存在差异？</view>
-					<view class="excerpt wordbreak">有很多朋友刚了解抵押车的时候，在网络上看了很多关于抵押车的文章，觉得抵押车不过户有风险，价格就很低，听说一辆抵押车的...</view>
+					<view class="title">{{item.title}}</view>
+					<view class="excerpt wordbreak">{{item.excerpt}}</view>
 					<view class="author list-inline">
-						<view>2020-05-06</view>
-						<view class="pageview">阅读量 : 5661</view>
+						<view>{{item.created_at | momentDate}}</view>
+						<view class="pageview">阅读量 : {{item.views}}</view>
 					</view>
 				</view>
 				<view class="newsimg">
-					<image src="../../static/image/mine/newscar.jpg" mode="aspectFit"></image>
+					<image :src="item.img ? `http://39.99.187.24/media/${item.img}` : '../../static/image/mine/newscar.jpg'"></image>
 				</view>
 			</navigator>
 		</view>
@@ -20,6 +20,7 @@
 
 <script>
 	import MescrollUni from "@/components/mescroll-uni/mescroll-uni.vue";
+	import { momentDate } from '@/filters/index.js'
 	export default{
 		components: {
 			MescrollUni
@@ -40,6 +41,9 @@
 					}
 				},
 			}
+		},
+		filters: {
+			momentDate
 		},
 		methods: {
 			// mescroll组件初始化的回调,可获取到mescroll对象
@@ -65,17 +69,17 @@
 				})
 			},
 			getListDataFromNet(pageNum,pageSize,successCallback,errorCallback) {
-				successCallback && successCallback([1,2,3]);
-				// this.$api.getCourseList({
-				// 	pageStart: pageNum,
-				// 	pageSize,
-				// 	status: this.index == 0 ? '' : this.index,
-				// 	userId: uni.getStorageSync('userInfo').id
-				// }).then(res => {
-				// 	successCallback && successCallback(res.data.result);
-				// }).catch(err => {
-				// 	errorCallback && errorCallback();
-				// })
+				// successCallback && successCallback([1,2,3]);
+				this.$api.getNewList({
+					pageStart: pageNum,
+					page: pageSize,
+					cat_id: 0
+				}).then(res => {
+					console.log(res.result)
+					successCallback && successCallback(res.result);
+				}).catch(err => {
+					errorCallback && errorCallback();
+				})
 			}
 		}
 	}

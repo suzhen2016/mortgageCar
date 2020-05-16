@@ -1,27 +1,34 @@
 <template>
 	<view class="new-detail">
-		<view class="title">为什么抵押车的价格会存在差异？</view>
+		<qi-loading></qi-loading>
+		<view class="title">{{detail.title}}</view>
 		<view class="info">
-			2020-05-06 16:32&nbsp;&nbsp;&nbsp;  浏览: <text>4545</text>
+			{{detail.created_at | momentDate}}&nbsp;&nbsp;&nbsp;  浏览: <text>{{detail.views}}</text>
 		</view>
-		<view class="content" v-html="article"></view>
+		<view class="content" v-html="detail.body"></view>
 	</view>
 </template>
 
 <script>
+	import { momentDate } from '@/filters/index.js'
 	export default {
 		data() {
 			return {
-				article: '有些车是全款带大本带结清证明的，这种车在抵押车市场占比很小，在很多人眼里算是安全系数比较高的车，市场热度高，出价比同系列的车就高一些。'
+				id: '',
+				detail: {},
 			}
 		},
-		onLoad() {
-			
+		filters: {
+			momentDate
+		},
+		onLoad(options) {
+			this.id = options.id
+			this.loadDetail()
 		},
 		onNavigationBarButtonTap() {
 			uni.showActionSheet({
 			    itemList: ['新闻首页', '取消'],
-			    success(res) {
+			    success:(res) => {
 					if(res.tapIndex == 0) {
 						uni.navigateBack({
 							delta: 1
@@ -34,7 +41,13 @@
 			});
 		},
 		methods: {
-			
+			loadDetail() {
+				this.$api.getNewDetail({
+					news_id: this.id
+				}).then(res => {
+					this.detail = res.result
+				})
+			}
 		}
 	}
 </script>
@@ -57,6 +70,9 @@
 			font-size: 32upx;
 			line-height: 180%;
 			padding: 20upx 32upx;
+			img{
+				max-width: 100%;
+			}
 		}
 	}
 </style>

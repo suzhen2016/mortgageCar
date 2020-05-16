@@ -27,6 +27,7 @@ function request(params, method, header) {
 				"Api-Token": token,
 				"content-type": 'application/x-www-form-urlencoded'
 			}, header),
+			dataType: 'json',
 			success(res) {
 				// 成功回调
 				if (res.statusCode == 200) {

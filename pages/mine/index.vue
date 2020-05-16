@@ -2,7 +2,9 @@
 	<view class="mine-container">
 		<view class="container-section-new">
 			<view class="person-name">
-				<image src="/static/image/mine/default.jpg" mode=""></image>
+				<view @tap="goAvatar">
+					<image src="/static/image/mine/default.jpg" mode=""></image>
+				</view>
 				<view class="detail">
 					<view class="account" v-if="false">账号: jkjssd</view>
 					<view class="account" v-if="true">昵称</view>
@@ -69,15 +71,20 @@
 					{
 						img: '/static/image/mine/about.png',
 						text: '关于我们',
-						url: './aboutUs'
+						url: '/pages/mine/about/aboutUs'
 					}
 				]
 			}
 		},
 		methods: {
+			goAvatar() {
+				uni.navigateTo({
+					url: './avatar'
+				})
+			},
 			goPath(url, index) {
 				if(url) {
-					if(index == 5) {
+					if(index == 4) {
 						uni.makePhoneCall({
 							 phoneNumber: url
 						})
