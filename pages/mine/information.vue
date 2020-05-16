@@ -4,7 +4,7 @@
 			<view class="person-name">
 				<image src="/static/image/mine/default.jpg" mode="aspectFit"></image>
 				<view class="detail">
-					<view class="account">账号: jkjssd</view>
+					<view class="account">账号: {{userInfo.name}}</view>
 					<view class="level">会员组: 个人会员</view>
 				</view>
 			</view>
@@ -73,6 +73,29 @@
 			return {
 				
 			}
+		},
+		computed: {
+			userInfo() {
+				return uni.getStorageSync('userInfo')
+			}
+		},
+		onNavigationBarButtonTap() {
+			uni.showModal({
+			    title: '提示',
+			    content: '确定要退出本次登录吗？',
+			    success:  (res) => {
+			        if (res.confirm) {
+						this.$api.loginOut().then(res => {
+							uni.clearStorageSync()
+							uni.switchTab({
+								url: '/pages/home/index'
+							})
+						})
+			        } else if (res.cancel) {
+			            console.log('用户点击取消');
+			        }
+			    }
+			});
 		}
 	}
 </script>

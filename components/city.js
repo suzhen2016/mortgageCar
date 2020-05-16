@@ -1,8 +1,4 @@
-/**
- * Created by dianwoda on 2019/3/28.
- * // A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
-    // { cityName: '', pinYin: '', py: '', code: '', airName: ''},
- */
+
 export default {
   hotCity: [
     { cityName: '北京', pinYin: 'beijing', py: 'bj', code: 'PEK'},

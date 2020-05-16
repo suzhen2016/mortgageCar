@@ -1,8 +1,9 @@
 <template>
 	<view class="home-container">
+		<qi-loading></qi-loading>
 		<swiper class="swiper" indicator-dots autoplay circular :indicator-active-color="activeColor">
-			<swiper-item class="swiper-item" v-for="(item, index) in swipers" :key="index">
-				<img :src="item" alt="">
+			<swiper-item class="swiper-item" v-for="(item, index) in homeData && homeData.banner" :key="index" @tap="goWeb(item.link_url)">
+				<image :src="item.img" alt=""></image>
 			</swiper-item>
 		</swiper>
 		<view class="menus">
@@ -29,14 +30,14 @@
 			<view class="tel-num" @tap="phoneCall">官方热线：400-087-0081</view>
 		</view>
 		<view class="car-list">
-			<navigator hover-class="none" url="/pages/carDetail/index" class="car-item" v-for="(item, index) in 20" :key="index">
-				<img src="https://www.jjtdyc.com/jjtdyc1.jpg" mode="aspectFit" />
+			<navigator hover-class="none" :url="`/pages/carDetail/index?id=${item.id}`" class="car-item" v-for="(item, index) in homeData && homeData.cars" :key="index">
+				<image :src="item.cat_img"></image>
 				<view class="right">
-					<view class="car-name">11年雷克萨斯RX</view>
-					<view class="time">上牌日期：2011年05月</view>
+					<view class="car-name">{{item.title}}</view>
+					<view class="time">上牌日期：{{item.list_date}}</view>
 					<view class="bottom">
-						<view class="time">2020-05-01</view>
-						<view class="money-num">￥14.30万</view>
+						<view class="time">{{item.created_at | momentDate}}</view>
+						<view class="money-num">￥{{item.price}}万</view>
 					</view>
 				</view>
 			</navigator>
@@ -45,6 +46,8 @@
 </template>
 
 <script>
+	import config from '@/config'
+	import { momentDate } from '@/filters'
 	export default {
 		data() {
 			return {
@@ -109,11 +112,19 @@
 					'抵押车有使用期限吗？',
 					'抵押车要交定金吗？',
 					'抵押车消费人群主要有哪几类？'
-				]
+				],
+				homeData: null,
+				city: null
 			}
 		},
-		onLoad() {
-			
+		filters: {
+			momentDate
+		},
+		onShow() {
+			let city = this.city
+			this.city = uni.getStorageSync('city')
+			this.setStyle()
+			this.loadData()
 		},
 		onNavigationBarButtonTap(e) {
 			uni.navigateTo({
@@ -125,7 +136,54 @@
 				url: '/pages/search/search'
 			})
 		},
+		onReachBottom() {
+			// uni.switchTab({
+			// 	url: '/pages/buycar/index'
+			// })
+		},
 		methods: {
+			loadData() {
+				this.$api.getHomeData({
+					address_id : ''
+				}).then(res => {
+					this.homeData = res.result
+					this.homeData.banner = this.homeData.banner && this.homeData.banner.map(item => {
+						return {
+							...item,
+							img: `${config.qiniuSrc}${item.img}`
+						}
+					}) || []
+					this.homeData.cars = this.homeData.cars && this.homeData.cars.map(item => {
+						return {
+							...item,
+							price: Math.round((item.price /10000) * 100) / 100,
+							cat_img: `${config.qiniuSrc}${item.cat_img}`
+						}
+					}) || []
+				})
+			},
+			setStyle() {
+				// #ifdef APP-PLUS
+				let pages = getCurrentPages();
+				let page = pages[pages.length - 1];
+				let currentWebview = page.$getAppWebview();
+				let titleNView = currentWebview.getStyle().titleNView;
+				titleNView.buttons[0].text = this.city ? this.city.name : '全国';
+				currentWebview.setStyle({
+					titleNView: titleNView
+				});
+				// #endif
+				// #ifdef H5
+				document.getElementsByClassName('uni-btn-icon')[1].innerText = this.city ? this.city.name : '全国';
+				// #endif
+			},
+			goWeb(url) {
+				if(url) {
+					uni.navigateTo({
+						url: `./article?url=${url}`
+					})
+				}
+			},
 			phoneCall() {
 				uni.makePhoneCall({
 				    phoneNumber: '114'
@@ -152,9 +210,10 @@
 <style lang="scss">
 	.home-container{
 		.swiper{
+			height: 360upx!important;
 			.swiper-item{
-				height: 360upx;
-				img{
+				height: 360upx!important;
+				image{
 					width: 100%;
 					height: 100%;
 				}
@@ -238,7 +297,7 @@
 				display: flex;
 				font-size: 24upx;
 				border: 1upx solid #d8d8d8;
-				img{
+				image{
 					width: 154upx;
 					height: 140upx;
 					object-fit: center;

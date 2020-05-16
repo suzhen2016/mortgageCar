@@ -1,14 +1,14 @@
 <template>
 	<mescroll-uni :fixed="false" top="0" :down="downOption" @down="downCallback" :up="upOption" @up="upCallback" @init="mescrollInit">
 		<view class="buying-list">
-			<navigator hover-class="none" url="/pages/buying/detail" class="buying-item" v-for="(item,index) in list" :key="index">
+			<navigator hover-class="none" :url="`/pages/buying/detail?id=${item.id}`" class="buying-item" v-for="(item,index) in list" :key="index">
 				<view class="car-text">
 					<view class="name">
-						<view class="title">急需求购车一台</view>
-						<view class="price">30.00万</view>
+						<view class="title">{{item.title}}</view>
+						<view class="price">{{item.price}}万</view>
 					</view>
-					<view class="time">2020年 | 2万公里</view>
-					<view class="time">湖北省 » 武汉</view>
+					<view class="time">{{item.created_at | getYear}}年 | {{item.kilometre}}公里</view>
+					<view class="time">{{item.address.province}} » {{item.address.city}}</view>
 				</view>
 			</navigator>
 		</view>
@@ -17,6 +17,7 @@
 
 <script>
 	import MescrollUni from "@/components/mescroll-uni/mescroll-uni.vue";
+	import { getYear } from '@/filters'
 	export default {
 		components: {
 			MescrollUni
@@ -37,6 +38,9 @@
 					}
 				},
 			}
+		},
+		filters: {
+			getYear
 		},
 		onLoad() {
 			
@@ -71,17 +75,21 @@
 				})
 			},
 			getListDataFromNet(pageNum,pageSize,successCallback,errorCallback) {
-				successCallback && successCallback([1,2,3]);
-				// this.$api.getCourseList({
-				// 	pageStart: pageNum,
-				// 	pageSize,
-				// 	status: this.index == 0 ? '' : this.index,
-				// 	userId: uni.getStorageSync('userInfo').id
-				// }).then(res => {
-				// 	successCallback && successCallback(res.data.result);
-				// }).catch(err => {
-				// 	errorCallback && errorCallback();
-				// })
+				// successCallback && successCallback([1,2,3]);
+				this.$api.getCarBuyList({
+					page: pageNum,
+					number: pageSize
+				}).then(res => {
+					let result = res.result && res.result.map(item => {
+						return {
+							...item,
+							price: Math.round((item.price /10000) * 100) / 100
+						}
+					})
+					successCallback && successCallback(result);
+				}).catch(err => {
+					errorCallback && errorCallback();
+				})
 			}
 		}
 	}

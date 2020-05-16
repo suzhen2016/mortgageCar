@@ -6,23 +6,23 @@
 					<image src="/static/image/mine/default.jpg" mode=""></image>
 				</view>
 				<view class="detail">
-					<view class="account" v-if="false">账号: jkjssd</view>
-					<view class="account" v-if="true">昵称</view>
-					<view class="sign" @tap="handleSign" v-if="false">今日签到</view>
-					<navigator hover-class="none" url="/pages/login/login" class="sign" v-if="true">点击登录</navigator>
-					<navigator hover-class="none" url="/pages/login/register" class="sign" v-if="true">注册</navigator>
+					<view class="account" v-if="userInfo">账号: {{userInfo.name}}</view>
+					<view class="account" v-if="!userInfo">昵称</view>
+					<!-- <view class="sign" @tap="handleSign" v-if="userInfo">今日签到</view> -->
+					<navigator hover-class="none" url="/pages/login/login" class="sign" v-if="!userInfo">点击登录</navigator>
+					<navigator hover-class="none" url="/pages/login/register" class="sign" v-if="!userInfo">注册</navigator>
 				</view>
 			</view>
 		</view>
 		<view class="menus">
-			<navigator hover-class="none" url="./information" class="menu-item">
+			<view  class="menu-item" @tap="goUrl('./information')">
 				<image src="/static/image/mine/glzx.png" mode="aspectFit"></image>
 				<view>管理中心</view>
-			</navigator>
-			<navigator hover-class="none" url="/pages/message/index" class="menu-item">
+			</view>
+			<view class="menu-item" @tap="goUrl('/pages/message/index')">
 				<image src="/static/image/mine/znxj.png" mode="aspectFit"></image>
 				<view>站内信件</view>
-			</navigator>
+			</view>
 		</view>
 		<view class="list">
 			<view class="list-item" v-for="(item, index) in list" :key="index" @tap="goPath(item.url, index)">
@@ -37,6 +37,7 @@
 	export default {
 		data() {
 			return {
+				userInfo: null,
 				list: [
 					{
 						img: '/static/image/mine/car.png',
@@ -76,23 +77,47 @@
 				]
 			}
 		},
+		onShow() {
+			this.userInfo = uni.getStorageSync('userInfo')
+		},
 		methods: {
 			goAvatar() {
 				uni.navigateTo({
 					url: './avatar'
 				})
 			},
+			goUrl(url) {
+				if(!this.userInfo) {
+					uni.navigateTo({
+						url: '/pages/login/login'
+					})
+				}else{
+					uni.navigateTo({
+						url
+					})
+				}
+			},
 			goPath(url, index) {
+				if(index == 4) {
+					console.log(1)
+					return uni.makePhoneCall({
+						phoneNumber: url
+					})
+				}
+				if(index == 5) {
+					return  uni.navigateTo({
+						url
+					})
+				}
+				if(!this.userInfo) {
+					return uni.navigateTo({
+						url: '/pages/login/login'
+					})
+				}
 				if(url) {
-					if(index == 4) {
-						uni.makePhoneCall({
-							 phoneNumber: url
-						})
-					}else{
-						uni.navigateTo({
-							url
-						})
-					}
+					uni.navigateTo({
+						url
+					})
 				}else{
 					uni.showToast({
 						title: '您所在的会员组无访问权限',

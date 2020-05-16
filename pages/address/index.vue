@@ -4,14 +4,13 @@
 
 <script>
 	import citySelect from '@/components/linzq-citySelect/linzq-citySelect';
-	import city from '@/components/city.js'
 	export default{
 		components: {
 			citySelect
 		},
 		data() {
 			return {
-				region: ''
+
 			}
 		},
 		onLoad() {
@@ -20,16 +19,17 @@
 		methods: {
 			 back_city(e) { 
 				 if (e !== 'no') { 
-				   this.region = e.cityName 
+				   uni.setStorageSync('city', e)
 				   // this.$refs.popupRef.close(); 
 				   uni.navigateBack({
-				   	
+						delta: 1
 				   })
 				 } 
 				 else { 
 				   // this.$refs.popupRef.close(); 
+				   uni.setStorageSync('city', '')
 				   uni.navigateBack({
-				   	
+						delta: 1
 				   })
 				 } 
 			 }

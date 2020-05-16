@@ -25,6 +25,7 @@ function request(params, method, header) {
 			method: method,
 			header: Object.assign({
 				"Api-Token": token,
+				'Auth-Token': uni.getStorageSync("token"),
 				"content-type": 'application/x-www-form-urlencoded'
 			}, header),
 			dataType: 'json',

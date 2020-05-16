@@ -17,9 +17,20 @@
 				avatarUrl: 'http://image.wufazhuce.com/Fsrmr-V7PTb6fBOlrJqxzWi7G5Uu'
 			}
 		},
+		computed: {
+			userInfo() {
+				return uni.getStorageSync('userInfo')
+			}
+		},
 		methods: {
 			myUpload(rsp) {
 				this.avatarUrl = rsp.path
+				this.$api.updateUserAvatar({
+					user_id: this.userInfo.id,
+					user_pho: this.avatarUrl
+				}).then(res => {
+					uni.setStorageSync('userInfo', res.result)
+				})
 				return 
 			    let avatar = rsp.path;
 				uni.uploadFile({

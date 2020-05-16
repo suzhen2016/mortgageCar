@@ -16,7 +16,7 @@
 								"text": "全国" ,
 								"float":"left",
 								"fontSize":"12px",
-								"width": "30px"
+								"width": "auto"
 							}	
 						]
 					}
@@ -24,9 +24,45 @@
 			}
 		},
 		{
+		    "path": "pages/home/article",
+		    "style": {
+				"navigationBarTitleText": ""
+			}
+		}, 
+		{
 		    "path": "pages/login/login",
 		    "style": {
-				"navigationBarTitleText": "会员登录"
+				"navigationBarTitleText": "会员登录",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "注册" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		}, 
+		{
+		    "path": "pages/login/messageLogin",
+		    "style": {
+				"navigationBarTitleText": "短信登录",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
 			}
 		}, 
 		{
@@ -38,7 +74,19 @@
 		{
 		    "path": "pages/login/register",
 		    "style": {
-				"navigationBarTitleText": "会员注册"
+				"navigationBarTitleText": "注册验证",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
 			}
 		},
 		{
@@ -180,7 +228,7 @@
 								"text": "发布" ,
 								"float":"right",
 								"fontSize":"14px",
-								"width": "40px"
+								"width": "auto"
 							}	
 						]
 					}

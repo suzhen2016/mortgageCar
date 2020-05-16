@@ -1,10 +1,11 @@
 <template>
 	<div class="wrapper" :style="'top:'+statusBarHeight+'px'">
 		<div class="header">
-			<view class="back_div">
-				<image class="back_img" @click="back_city()" src="../../static/image/back.png" mode=""></image>
-			</view>
+			<navigator class="back_div" open-type="navigateBack">
+				<image class="back_img" src="../../static/image/back.png" mode=""></image>
+			</navigator>
 			<input class="input" @input="onInput" placeholder="中文/拼音/首字母" v-model="searchValue" />
+			<view class="all-city" @click="back_city()">全国</view>
 		</div>
 		<scroll-view class="calendar-list" scroll-y="true" :scroll-into-view="scrollIntoId">
 			<view v-if="disdingwei" id="hot">
@@ -31,7 +32,7 @@
 					</view>
 					<view class="dingwei_city dingwei_city_zuijin">
 						<view class="dingwei_city_one toright" v-for="(item,index) in Visit" v-if="index<2" @click="back_city(item)">
-							{{item.cityName}}
+							{{item.name}}
 						</view> 
 					</view>
 				</view>
@@ -41,14 +42,15 @@
 
 			<!-- 城市列表 -->
 			<view v-if="searchValue == ''" v-for="(item, index) in list" :id="getId(index)" :key="index">
-				<view class="letter-header">{{ getId(index) }}</view>
-				<view class="city-div" v-for="(city, i) in item" :key="i" @click="back_city(city)">
-					<text class="city">{{ city.cityName }}</text>
+				<view class="letter-header">{{ item.letter }}</view>
+<!-- 				<view class="letter-header">{{ getId(index) }}</view> -->
+				<view class="city-div" v-for="(city, i) in item.address" :key="i" @click="back_city(city)">
+					<text class="city">{{ city.name }}</text>
 				</view>
 			</view>
 			<!-- 搜索结果 -->
-			<view class="city-div" v-for="(item, index) in searchList" @click="back_city(item)">
-				<text class="city">{{ item.cityName }}</text>
+			<view class="city-div" v-for="(item, index) in searchList" @click="back_city(item)" :key="index">
+				<text class="city">{{ item.name }}</text>
 			</view>
 		</scroll-view>
 
@@ -76,9 +78,9 @@
 				return Citys.hotCity;
 			},
 
-			citys() {
-				return Citys.cities;
-			}
+			// citys() {
+			// 	return Citys.cities;
+			// }
 		},
 
 		data() {
@@ -86,6 +88,7 @@
 				statusBarHeight: this.statusBarHeight,
 				ImgUrl: this.ImgUrl,
 				letter: [],
+				citys: [],
 				selectLetter: '',
 				searchValue: '',
 				scrollIntoId: '',
@@ -95,7 +98,7 @@
 				showMask: false,
 				disdingwei: true,
 				Visit: [], //最近访问
-				position: '青岛',
+				position: '厦门',
 				longitude: '', //经度
 				latitude: '', //纬度
 				seconds: 3,
@@ -104,36 +107,49 @@
 		},
 
 		created() {
+			this.$api.getLetterAddressList().then(res => {
+				this.list = res.result
+				let citys = []
+				this.list.forEach(item => {
+					if(item.address.length > 0) {
+						citys = citys.concat(item.address)
+					}
+				})
+				this.citys = citys
+				this.letter = this.list.map(item => {
+					return item.letter
+				})
+			})
 			//获取存储的最近访问
 			var that = this
 			uni.getStorage({
 				key: 'Visit_key',
-				success: function(res) {
-					that.Visit = res.data
+				success: (res) => {
+					this.Visit = res.data
 				}
 			});
 			//获取定位 经度纬度
 			that.getWarpweft()
 			//获取city.js 的程序字母
-			var mu = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'w', 'x', 'y',
-				'z'
-			];
-			var tmp = [];
-			for (var i = 0; i < mu.length; i++) {
-				var item = mu[i];
-				for (var j = 0; j < this.citys.length; j++) {
-					var py = this.citys[j].py;
-					if (py.substring(0, 1) == item) {
-						if (tmp.indexOf(item) == -1) {
-							this.list[i] = [this.citys[j]];
-							tmp.push(item);
-							this.letter.push(item.toUpperCase());
-						} else {
-							this.list[i].push(this.citys[j]);
-						}
-					}
-				}
-			}
+			// var mu = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'w', 'x', 'y',
+			// 	'z'
+			// ];
+			// var tmp = [];
+			// for (var i = 0; i < mu.length; i++) {
+			// 	var item = mu[i];
+			// 	for (var j = 0; j < this.citys.length; j++) {
+			// 		var py = this.citys[j].py;
+			// 		if (py.substring(0, 1) == item) {
+			// 			if (tmp.indexOf(item) == -1) {
+			// 				this.list[i] = [this.citys[j]];
+			// 				tmp.push(item);
+			// 				this.letter.push(item.toUpperCase());
+			// 			} else {
+			// 				this.list[i].push(this.citys[j]);
+			// 			}
+			// 		}
+			// 	}
+			// }
 		},
 		methods: {
 			getId(index) {
@@ -306,10 +322,18 @@
 		width: 35upx;
 		height: 35upx;
 	}
+	.all-city{
+		font-size: 28upx;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex: 1;
+	}
 
 	.input {
 		font-size: 28upx;
-		width: 620upx;
+		width: 580upx;
 		height: 55upx;
 		border-radius: 40upx;
 		background-color: #F5F5F5;

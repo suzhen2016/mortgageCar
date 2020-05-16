@@ -1,48 +1,63 @@
 <template>
 	<view class="buying-detail">
-		<view class="question-title">急需求购车一台</view>
+		<qi-loading></qi-loading>
+		<view class="question-title">{{carDetail.title}}</view>
 		<view class="hide-box">
 			<view class="title-sm">基本信息</view>
 			<view class="parameter-configure-list">
 				<view class="list-item">
 					<view>品牌</view>
-					<view>奔驰 » 奔驰GLC</view>
+					<view>{{carDetail.top_name}} » {{carDetail.level_name}}</view>
 				</view>
 				<view class="list-item">
 					<view>发布时间</view>
-					<view>2020-05-01</view>
+					<view>{{carDetail.created_at | momentDate}}</view>
 				</view>
 				<view class="list-item">
 					<view>归属地</view>
-					<view>湖北省 » 武汉</view>
+					<view>{{carDetail.address.province}} » {{carDetail.address.city}}</view>
 				</view>
 				<view class="list-item" style="color: #ff6d02">
 					<view>期望价格</view>
-					<view>30.00万</view>
+					<view>{{carDetail.price}}万</view>
 				</view>
 			</view>
 			<view class="title-sm">备注</view>
-			<view class="cardetailbox">暂无</view>
+			<view class="cardetailbox">{{carDetail.note}}</view>
 			<view class="title-sm">注意</view>
-			<view class="cardetailboxdetail">交易过程中检查车辆的相关证件，避免上当受骗！</view>
+			<view class="cardetailboxdetail">{{carDetail.note}}</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import { momentDate } from '@/filters' 
 	export default {
 		data() {
 			return {
-				
+				id: '',
+				carDetail: null
 			}
 		},
-		onLoad() {
-			uni.setNavigationBarTitle({
-				title: '急需求购车一台'
-			})
+		filters: {
+			momentDate
+		},
+		onLoad(options) {
+			this.id = options.id
+			this.loadDetail()
 		},
 		methods: {
-			
+			loadDetail() {
+				this.$api.getCarBuyDetail({
+					request_buy_id: this.id
+				}).then(res => {
+					this.carDetail = res.result
+					this.carDetail.price = Math.round((this.carDetail.price /10000) * 100) / 100
+					uni.setNavigationBarTitle({
+						title: this.carDetail.title
+					})
+				})
+			}
 		}
 	}
 </script>
