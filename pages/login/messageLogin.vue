@@ -36,6 +36,11 @@
 				delta: 1
 			})
 		},
+		onHide() {
+			if(this.timer) {
+				clearInterval(this.timer)
+			}
+		},
 		methods: {
 			handleEvaluate() {
 				this.$refs.verifyElement.show();

@@ -1,7 +1,7 @@
 <template>
 	<view class="message-container">
 		<div class="input-container">
-			<input type="text" v-model="keyWord" placeholder="输入关键词索"/>
+			<input type="text" v-model="keyWord" placeholder="输入关键词索" @confirm="onConfirm"/>
 		</div>
 		<scroll-view scroll-x scroll-with-animation class="tab-box" :scroll-left="scrollLeft">
 			<view class="tab-item" v-for="(item, index) in tabs" :key="index" :class="{'active': selectedIndex == index}" :data-current="index" @tap="handleSelect">
@@ -11,7 +11,7 @@
 		<view class="question-content">
 			<swiper class="swiper" :current="selectedIndex" @change="swiperChange">
 				<swiper-item v-for="(item, index) in tabs" :key="index">
-					<mescroll-item :i="parseFloat(item.key)" :index="selectedIndex"></mescroll-item>
+					<mescroll-item :i="parseFloat(item.key)" :index="selectedIndex" :keyWord="keyWord" :keyWordChange="keyWordChange"></mescroll-item>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -27,6 +27,7 @@
 		data() {
 			return {
 				keyWord: '',
+				keyWordChange: false,
 				selectedIndex: 0,
 				scrollLeft: '',
 				tabs: [
@@ -55,6 +56,12 @@
 			})
 		},
 		methods: {
+			onConfirm() {
+				this.keyWordChange = true
+				setTimeout(() => {
+					this.keyWordChange = false
+				}, 60)
+			},
 			handleSelect(e) {
 				let cur = e.currentTarget.dataset.current;
 				if (this.selectedIndex == cur) {
@@ -102,7 +109,7 @@
 			white-space: nowrap;
 			.tab-item{
 				display: inline-block;
-				width: 33%;
+				width: 140upx;
 				line-height: 80upx;
 				text-align: center;
 				color: #999;

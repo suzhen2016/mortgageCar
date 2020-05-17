@@ -45,7 +45,7 @@
 					<view class="iconfont icon-outdent" data-name="indent" data-value="-1"></view>
 					<view class="iconfont icon-indent" data-name="indent" data-value="+1"></view>
 					<view class="iconfont icon-fengexian" @tap="insertDivider"></view> -->
-					<view class="iconfont icon-charutupian" @tap="insertImage"></view>
+					<view class="iconfont icon-charutupian" @tap="insertImage" v-if="showImage"></view>
 					<!-- <view :class="formats.header === 1 ? 'ql-active' : ''" class="iconfont icon-format-header-1" data-name="header"
 					 :data-value="1"></view>
 					<view :class="formats.script === 'sub' ? 'ql-active' : ''" class="iconfont icon-zitixiabiao" data-name="script"
@@ -59,7 +59,7 @@
 				</view>
 
 				<editor id="editor" class="ql-container" placeholder="开始输入..." showImgSize showImgToolbar showImgResize
-				 @statuschange="onStatusChange" :read-only="readOnly" @ready="onEditorReady">
+				 @statuschange="onStatusChange" @input="onInput" :read-only="readOnly" @ready="onEditorReady">
 				</editor>
 			</view>
 		</view>
@@ -68,7 +68,14 @@
 </template>
 
 <script>
+	import config from '@/config'
 	export default {
+		props: {
+			showImage: {
+				type: Boolean,
+				default:true
+			}
+		},
 		data() {
 			return {
                 readOnly: false,
@@ -76,6 +83,9 @@
 			}
 		},
 		methods: {
+			onInput(e) {
+				this.$emit('change', e.detail.html)
+			},
 			readOnlyChange() {
 				this.readOnly = !this.readOnly
 			},
@@ -129,16 +139,33 @@
 				})
 			},
 			insertImage() {
+				let token = '39cynet-76358255-2095-4dd9-932c-274702f99435';
 				uni.chooseImage({
 					count: 1,
 					success: (res) => {
-						this.editorCtx.insertImage({
-							src: res.tempFilePaths[0],
-							alt: '图像',
-							success: function() {
-								console.log('insert image success')
+						uni.uploadFile({
+							url: config.uploadUrl, 
+							filePath: res.tempFilePaths[0],
+							name: 'upload_img',
+							header: {
+								"Api-Token": token,
+								'Auth-Token': uni.getStorageSync("token")
+							},
+							formData: {
+								
+							},
+							success: (uploadFileRes) => {
+								let url = config.qiniuSrc + JSON.parse(uploadFileRes.data).result.img_url
+								console.log();
+								this.editorCtx.insertImage({
+									src: url,
+									alt: '图像',
+									success: function() {
+										console.log('insert image success')
+									}
+								})
 							}
-						})
+						});
 					}
 				})
 			}

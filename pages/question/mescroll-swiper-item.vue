@@ -2,10 +2,10 @@
 	<mescroll-uni :fixed="false" top="0" :down="downOption" @down="downCallback" :up="upOption" @up="upCallback" @init="mescrollInit">
 		<view class="question-list">
 			<view class="question-item" v-for="(item, index) in list" :key="index" @tap="goDetail(item)">
-				<view class="question-title">抵押车安保措施怎么做？</view>
+				<view class="question-title">{{item.title}}</view>
 				<view class="question-footer">
-					<view class="question-time">2019-09-16</view>
-					<view class="question-state">已关闭</view>
+					<view class="question-time">{{ item.created_at | momentDate}}</view>
+					<view class="question-state">{{item.is_open ? '' : '已关闭'}}</view>
 				</view>
 			</view>
 		</view>
@@ -14,9 +14,13 @@
 
 <script>
 	import MescrollUni from "@/components/mescroll-uni/mescroll-uni.vue";
+	import { momentDate } from '@/filters'
 	export default {
 		components: {
 			MescrollUni
+		},
+		filters: {
+			momentDate
 		},
 		props:{
 			i: [Number,String], // 每个tab页的专属下标
@@ -54,7 +58,7 @@
 		methods: {
 			goDetail(item) {
 				uni.navigateTo({
-					url: './questionDetail'
+					url: `./questionDetail?id=${item.id}`
 				})
 			},
 			// mescroll组件初始化的回调,可获取到mescroll对象
@@ -81,17 +85,19 @@
 				})
 			},
 			getListDataFromNet(pageNum,pageSize,successCallback,errorCallback) {
-				successCallback && successCallback([1,2,3]);
-				// this.$api.getCourseList({
-				// 	pageStart: pageNum,
-				// 	pageSize,
-				// 	status: this.index == 0 ? '' : this.index,
-				// 	userId: uni.getStorageSync('userInfo').id
-				// }).then(res => {
-				// 	successCallback && successCallback(res.data.result);
-				// }).catch(err => {
-				// 	errorCallback && errorCallback();
-				// })
+				// successCallback && successCallback([1,2,3]);
+				this.$api.getQuestionList({
+					page: pageNum,
+					number: pageSize,
+					title: '',
+					user_id: '',
+					check: '',
+					status: this.index == 0 ? '' : this.index == 1 ? 'waiting' : 'solved',
+				}).then(res => {
+					successCallback && successCallback(res.result);
+				}).catch(err => {
+					errorCallback && errorCallback();
+				})
 			}
 		},
 		watch: {

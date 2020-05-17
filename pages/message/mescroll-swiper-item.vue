@@ -1,19 +1,20 @@
 <template>
 	<mescroll-uni :fixed="false" top="0" :down="downOption" @down="downCallback" :up="upOption" @up="upCallback" @init="mescrollInit">
 		<view class="question-list">
-			<view class="question-item" v-for="(item, index) in list" :key="index" @tap="goDetail(item)">
-				<view class="question-title">抵押车安保措施怎么做？</view>
+			<navigator hover-class="none" :url="`./detail?id=${item.id}`" class="question-item" v-for="(item, index) in list" :key="index">
+				<view class="question-title">{{item.title}}</view>
 				<view class="question-footer">
-					<view class="question-time">2019-09-16</view>
-					<view class="question-state">已关闭</view>
+					<view class="question-time">{{item.created_at | momentTime}}</view>
+					<view class="question-state">{{item.receiver}}</view>
 				</view>
-			</view>
+			</navigator>
 		</view>
 	</mescroll-uni>
 </template>
 
 <script>
 	import MescrollUni from "@/components/mescroll-uni/mescroll-uni.vue";
+	import { momentTime } from '@/filters'
 	export default {
 		components: {
 			MescrollUni
@@ -25,7 +26,18 @@
 				default(){
 					return 0
 				}
+			},
+			keyWord: {
+				type: String,
+				default: ''
+			},
+			keyWordChange: {
+				type: Boolean,
+				default: false
 			}
+		},
+		filters: {
+			momentTime
 		},
 		data() {
 			return {
@@ -52,11 +64,6 @@
 			}
 		},
 		methods: {
-			goDetail(item) {
-				uni.navigateTo({
-					url: './questionDetail'
-				})
-			},
 			// mescroll组件初始化的回调,可获取到mescroll对象
 			mescrollInit(mescroll) {
 				this.mescroll = mescroll;
@@ -81,17 +88,19 @@
 				})
 			},
 			getListDataFromNet(pageNum,pageSize,successCallback,errorCallback) {
-				successCallback && successCallback([1,2,3]);
-				// this.$api.getCourseList({
-				// 	pageStart: pageNum,
-				// 	pageSize,
-				// 	status: this.index == 0 ? '' : this.index,
-				// 	userId: uni.getStorageSync('userInfo').id
-				// }).then(res => {
-				// 	successCallback && successCallback(res.data.result);
-				// }).catch(err => {
-				// 	errorCallback && errorCallback();
-				// })
+				// successCallback && successCallback([1,2,3]);
+				this.$api.getMessageList({
+					page: pageNum,
+					number: pageSize,
+					is_open: 'open',
+					title: this.keyWord,
+					status: this.index == 0 ? 'received' : this.index == 1 ? 'sent' : this.index == 2 ? 'draft' : 'recycle',
+					user_id: uni.getStorageSync('userInfo').id
+				}).then(res => {
+					successCallback && successCallback(res.result);
+				}).catch(err => {
+					errorCallback && errorCallback();
+				})
 			}
 		},
 		watch: {
@@ -101,6 +110,12 @@
 					this.mescroll.resetUpScroll()
 				}
 				// this.mescroll.triggerDownScroll();
+			},
+			keyWordChange(val) {
+				if(val) {
+					this.isInit = false
+					this.mescroll.resetUpScroll()
+				}
 			}
 		}
 	}
@@ -126,13 +141,9 @@
 				height: 80upx;
 				line-height: 40upx;
 			}
-			.question-time{
+			.question-time, .question-state{
 				font-size: 24upx;
 				color: #999999;
-			}
-			.question-state{
-				font-size: 24upx;
-				color: #E46B09;
 			}
 		}
 	}

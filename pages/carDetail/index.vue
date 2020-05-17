@@ -2,7 +2,7 @@
 	<view class="cardetail-container">
 		<qi-loading></qi-loading>
 		<swiper class="swiper" indicator-dots autoplay circular :indicator-active-color="activeColor">
-			<swiper-item class="swiper-item" v-for="(item, index) in carDetail.car_images" :key="index">
+			<swiper-item class="swiper-item" v-for="(item, index) in carDetail && carDetail.car_images" :key="index">
 				<image :src="item.img"></image>
 			</swiper-item>
 		</swiper>
@@ -35,11 +35,11 @@
 				</view>
 				<view class="item">
 					<view class="left">归属地</view>
-					<view class="right">{{carDetail.address}}</view>
+					<view class="right">{{carDetail.address && carDetail.address.province}} >  {{carDetail.address && carDetail.address.city}}</view>
 				</view>
 				<view class="item">
 					<view class="left">联系方式</view>
-					<view class="right">110</view>
+					<view class="right">{{carDetail && carDetail.user &&  carDetail.user.phone}}</view>
 				</view>
 			</view>
 			<view>
@@ -78,7 +78,7 @@
 		data() {
 			return {
 				id: '',
-				carDetail: null,
+				carDetail: {},
 				activeColor: '#007aff',
 				swipers: ['https://www.jjtdyc.com/jjtdyc1.jpg','https://www.jjtdyc.com/jjtdyc2.jpg','https://www.jjtdyc.com/jjtdyc1.jpg'],
 			}
@@ -113,7 +113,7 @@
 						}
 					})
 					uni.setNavigationBarTitle({
-						title: res.result.brand
+						title: `${res.result.brand.level_name}${res.result.brand.top_name}`
 					})
 				})
 			},
@@ -306,7 +306,7 @@
 			left: 0;
 			right: 0;
 			z-index: 10;
-			height: 160upx;
+			// height: 160upx;
 		}
 		.footer{
 			display: flex;

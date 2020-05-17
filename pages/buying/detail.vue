@@ -1,31 +1,31 @@
 <template>
 	<view class="buying-detail">
 		<qi-loading></qi-loading>
-		<view class="question-title">{{carDetail.title}}</view>
+		<view class="question-title">{{carDetail && carDetail.title}}</view>
 		<view class="hide-box">
 			<view class="title-sm">基本信息</view>
 			<view class="parameter-configure-list">
 				<view class="list-item">
 					<view>品牌</view>
-					<view>{{carDetail.top_name}} » {{carDetail.level_name}}</view>
+					<view>{{carDetail && carDetail.brand.top_name}} » {{carDetail && carDetail.brand.level_name}}</view>
 				</view>
 				<view class="list-item">
 					<view>发布时间</view>
-					<view>{{carDetail.created_at | momentDate}}</view>
+					<view>{{carDetail && carDetail.created_at | momentDate}}</view>
 				</view>
 				<view class="list-item">
 					<view>归属地</view>
-					<view>{{carDetail.address.province}} » {{carDetail.address.city}}</view>
+					<view>{{carDetail && carDetail.address.province}} » {{carDetail && carDetail.address.city}}</view>
 				</view>
 				<view class="list-item" style="color: #ff6d02">
 					<view>期望价格</view>
-					<view>{{carDetail.price}}万</view>
+					<view>{{carDetail && carDetail.price}}万</view>
 				</view>
 			</view>
 			<view class="title-sm">备注</view>
-			<view class="cardetailbox">{{carDetail.note}}</view>
+			<view class="cardetailbox">{{carDetail && carDetail.note}}</view>
 			<view class="title-sm">注意</view>
-			<view class="cardetailboxdetail">{{carDetail.note}}</view>
+			<view class="cardetailboxdetail">{{carDetail && carDetail.notice}}</view>
 		</view>
 	</view>
 </template>

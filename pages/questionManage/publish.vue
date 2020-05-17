@@ -4,22 +4,23 @@
 		<view>
 			<input type="text" v-model="title" class="input">
 		</view>
-		<view class="ui-form">问题分类<em>*</em></view>
+		<!-- <view class="ui-form">问题分类<em>*</em></view>
 		<view class="select-type">
 			<view class="type-select" @tap="handleSelectType">{{typeKey ? types[typeKey - 1].name : '选择分类'}}</view>
-		</view>
+		</view> -->
 		<view class="ui-form">补充说明</view>
 		<view class="form-content">
-			<uEditor class="ql-container"></uEditor>
+			<uEditor class="ql-container" @change="getContent" :showImage="false"></uEditor>
 		</view>
 		<view class="ui-form">悬赏金币</view>
 		<view class="coin-picker">
-			<picker class="picker" @change="bindPickerChange" :value="index" :range="coins">
+			<input type="text" v-model="reward" placeholder="请输入悬赏" class="input">
+			<!-- <picker class="picker" @change="bindPickerChange" :value="index" :range="coins">
 				<view class="uni-input">{{coins[index]}}</view>
-			</picker>
-			<view class="des">您目前的金币为4</view>
+			</picker> -->
+			<!-- <view class="des">您目前的金币为4</view> -->
 		</view>
-		<view class="ui-form">匿名设定</view>
+		<!-- <view class="ui-form">匿名设定</view>
 		<view>
 			<label class="set-secret">
 				<view>
@@ -27,8 +28,8 @@
 				</view>
 				<view>您可以对问题设定匿名，但您需要付出0金币 </view>
 			</label>
-		</view>
-		<view class="submit-btn">发布</view>
+		</view> -->
+		<view class="submit-btn" @tap="handlePublish">发布</view>
 	</view>
 </template>
 
@@ -44,6 +45,8 @@
 			    index: 0,
 				coins: [0,5,10,15,20,30,50,80,100],
 				checked: false,
+				content: '',
+				reward: '',
 				types: [
 					{
 						key: '1',
@@ -67,6 +70,9 @@
 			})
 		},
 		methods:{
+			getContent(e) {
+				this.content = e
+			},
 			bindPickerChange(e) {
 				this.index = e.target.value
 			},
@@ -83,6 +89,29 @@
 				        
 				    }
 				});
+			},
+			handlePublish() {
+				if(!this.title) {
+					return this.$alert('请输入标题')
+				}
+				if(!this.content) {
+					return this.$alert('请输入补充说明')
+				}
+				if(!this.reward) {
+					return this.$alert('请输入悬赏')
+				}
+				let userInfo = uni.getStorageSync('userInfo')
+				this.$api.createQuestion({
+					title: this.title,
+					content: this.content,
+					is_open: 'open',
+					user_id: userInfo.id,
+					reward: this.reward
+				}).then(res => {
+					uni.navigateBack({
+						delta: 1
+					})
+				})
 			}
 		}
 	}
@@ -104,6 +133,7 @@
 			}
 		}
 		.input{
+			width: 100%;
 			height: 64upx;
 			line-height: 64upx;
 			border: #B2B2B2 1px solid;

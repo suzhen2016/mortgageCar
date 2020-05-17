@@ -17,4 +17,7 @@
 	*{
 		box-sizing: border-box;
 	}
+	img, image {
+		max-width: 100%;
+	}
 </style>

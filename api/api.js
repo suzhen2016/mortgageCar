@@ -1,5 +1,6 @@
 import $ajax from "../utils";
 
+
 //发送验证码
 export const sendCode = (params) => {
 	return $ajax.get({
@@ -93,7 +94,7 @@ export const getCarList = (params) => {
 }
 //获取车详情
 export const getCarDetail = (params) => {
-	return $ajax.get({
+	return $ajax.post({
 		url: '/api/v1/get_car_detail/',
 		data: params
 	})
@@ -107,7 +108,7 @@ export const getCarBuyList = (params) => {
 }
 //获取求购车详情
 export const getCarBuyDetail = (params) => {
-	return $ajax.get({
+	return $ajax.post({
 		url: '/api/v1/get_request_buy_detail/',
 		data: params
 	})
@@ -123,6 +124,83 @@ export const getLetterAddressList = (params) => {
 export const getHomeData = (params) => {
 	return $ajax.get({
 		url: '/api/v1/get_index/',
+		data: params
+	})
+}
+//提交问答接口
+export const createQuestion = (params) => {
+	return $ajax.post({
+		url: '/api/v1/create_question/',
+		data: params
+	})
+}
+// 获取问答列表接口
+export const getQuestionList = (params) => {
+	return $ajax.post({
+		url: '/api/v1/get_question_list/',
+		data: params
+	})
+}
+// 获取问答详情接口
+export const getQuestionDetail = (params) => {
+	return $ajax.post({
+		url: '/api/v1/get_question_by_id/',
+		data: params
+	})
+}
+//关闭或者打开问答
+export const operatorQuestion = (params) => {
+	return $ajax.post({
+		url: '/api/v1/open_close_question/',
+		data: params
+	})
+}
+// 问答回复接口
+export const replyQuestion = (params) => {
+	return $ajax.post({
+		url: '/api/v1/create_question_reply/',
+		data: params
+	})
+}
+// 删除问答
+export const deleteQuestion = (params) => {
+	return $ajax.post({
+		url: '/api/v1/delete_question/',
+		data: params
+	})
+}
+//创建站内信件
+export const createMessage = (params) => {
+	return $ajax.post({
+		url: '/api/v1/create_bot_msg/',
+		data: params
+	})
+}
+//关闭或者打开站内信件
+export const operatorMessage = (params) => {
+	return $ajax.post({
+		url: '/api/v1/open_close_bot_msg/',
+		data: params
+	})
+}
+// 获取站内信件列表
+export const getMessageList = (params) => {
+	return $ajax.post({
+		url: '/api/v1/get_bot_msg/',
+		data: params
+	})
+}
+//获取站内信件详情
+export const getMessageDetail = (params) => {
+	return $ajax.post({
+		url: '/api/v1/get_bot_msg_by_id/',
+		data: params
+	})
+}
+//删除站内信件
+export const deleteMessage = (params) => {
+	return $ajax.post({
+		url: '/api/v1/delete_bot_msg/',
 		data: params
 	})
 }

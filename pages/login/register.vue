@@ -48,6 +48,11 @@
 				timer: null
 			}
 		},
+		onHide() {
+			if(this.timer) {
+				clearInterval(this.timer)
+			}
+		},
 		onNavigationBarButtonTap() {
 			uni.navigateBack({
 				delta: 1

@@ -2,14 +2,14 @@
 	<view class="send-message">
 		<view class="ui-form">收件人<em>*</em></view>
 		<view>
-			<input type="text" v-model="name" class="input">
+			<input type="text" v-model="receiver" class="input">
 		</view>
 		<view class="ui-form">标题<em>*</em></view>
 		<view>
 			<input type="text" v-model="title" class="input">
 		</view>
 		<view class="ui-form">内容<em>*</em></view>
-		<uEditor class="ql-container"></uEditor>
+		<uEditor class="ql-container" @change="getContent"></uEditor>
 		<view class="ui-form">选项</view>
 		<view style="font-size: 26upx;">
 			<radio-group @change="radioChange">
@@ -21,7 +21,7 @@
 				</label>
 			</radio-group>
 		</view>
-		<view class="send-btn">发送</view>
+		<view class="send-btn" @tap="handlePublish">发送</view>
 		<view>
 			<view class="send-item">今日可发<text class="one">10</text>次</view>
 			<view class="send-item">当前已发<text class="two">0</text>次</view>
@@ -38,7 +38,7 @@
 		},
 		data() {
 			return {
-				name: '',
+				receiver: '',
 				title: '',
 				content: '',
 				items: [
@@ -64,13 +64,39 @@
 			})
 		},
 		methods:{
-			 radioChange (evt) {
+			getContent(e) {
+				this.content = e
+			},
+			radioChange (evt) {
 				for (let i = 0; i < this.items.length; i++) {
 					if (this.items[i].value === evt.target.value) {
 						this.current = i;
 						break;
 					}
 				}
+			},
+			handlePublish() {
+				if(!this.receiver) {
+					return this.$alert('请输入收件人')
+				}
+				if(!this.title) {
+					return this.$alert('请输入标题')
+				}
+				if(!this.content) {
+					return this.$alert('请输入补充说明')
+				}
+				let userInfo = uni.getStorageSync('userInfo')
+				this.$api.createMessage({
+					receiver: this.receiver,
+					title: this.title,
+					content: this.content,
+					user_id: uni.getStorageSync('userInfo').id,
+					msg_status: this.current == 0 ? 'draft' : this.current == 1 ? 'sent ' : 'received',
+					is_open: 'open'
+				}).then(res => {
+					this.$alert('发送成功')
+					uni.navigateBack()
+				})
 			}
 		}
 	}

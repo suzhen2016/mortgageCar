@@ -8,7 +8,7 @@
 						"searchInput": {
 							"backgroundColor": "#fff",
 							"borderRadius": "6px", //输入框圆角
-							"placeholder": "搜索品牌货车型",
+							"placeholder": "搜索品牌或车型",
 							"disabled": true
 						},
 						"buttons": [
@@ -286,6 +286,24 @@
 						"buttons": [
 							{
 								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/message/detail",
+			"style": {
+				"navigationBarTitleText": "信件详情",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "关闭" ,
 								"float":"right",
 								"fontSize":"14px",
 								"width": "40px"

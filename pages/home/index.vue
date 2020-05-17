@@ -14,16 +14,31 @@
 		</view>
 		<view class="new-article">
 			<view class="left">
-				<!-- <img src="https://www.jjtdyc.com/static/picture/picture/guanfang2.png" alt=""> -->
 				<image src="https://www.jjtdyc.com/static/picture/picture/guanfang2.png" mode="aspectFit"></image>
 			</view>
 			<view class="right">
 				<view class="roll-wrap">
-					<view class="articles">
-						<view class="article-item" v-for="(item, index) in articles" :key="index">{{item}}</view>
+					<view class="articles" :style="{'margin-top': marginTop + 'upx'}">
+						<navigator hover-class="none" :url="`/pages/news/newDetail?id=${item.id}`" class="article-item" v-for="(item, index) in nowNews" :key="index">{{item.title}}</navigator>
 					</view>
 				</view>
 			</view>
+		</view>
+		<view class="new-carlist red">
+			<view>新闻资讯</view>
+			<navigator hover-class="none" url="/pages/news/index" class="tel-num">查看更多+</navigator>
+		</view>
+		<view class="news-list">
+			<navigator hover-class="none" :url="`/pages/news/newDetail?id=${item.id}`" class="news-item" v-for="(item, index) in homeData && homeData.news" :key="index">
+				<view class="left">
+					<image :src="item.img" mode=""></image>
+					<view class="new-title">{{item.title}}</view>
+				</view>
+				<view class="right">
+					<view class="excerpt">{{item.excerpt}}</view>
+					<view class="create-time">{{item.created_at | momentTime}}</view>
+				</view>
+			</navigator>
 		</view>
 		<view class="new-carlist">
 			<view>最新车源</view>
@@ -47,7 +62,7 @@
 
 <script>
 	import config from '@/config'
-	import { momentDate } from '@/filters'
+	import { momentDate, momentTime } from '@/filters'
 	export default {
 		data() {
 			return {
@@ -114,11 +129,15 @@
 					'抵押车消费人群主要有哪几类？'
 				],
 				homeData: null,
-				city: null
+				city: null,
+				nowNews: [],
+				marginTop: 0,
+				timer: null
 			}
 		},
 		filters: {
-			momentDate
+			momentDate,
+			momentTime
 		},
 		onShow() {
 			let city = this.city
@@ -126,7 +145,7 @@
 			this.setStyle()
 			this.loadData()
 		},
-		onNavigationBarButtonTap(e) {
+		onNavigationBarButtonTap() {
 			uni.navigateTo({
 				url: '/pages/address/index'
 			})
@@ -137,17 +156,28 @@
 			})
 		},
 		onReachBottom() {
-			// uni.switchTab({
-			// 	url: '/pages/buycar/index'
-			// })
+			uni.switchTab({
+				url: '/pages/buycar/index'
+			})
+		},
+		onHide() {
+			if(this.timer) {
+				clearInterval(this.timer)
+			}
 		},
 		methods: {
 			loadData() {
 				this.$api.getHomeData({
-					address_id : ''
+					address_id : this.city && this.city.id || ''
 				}).then(res => {
 					this.homeData = res.result
 					this.homeData.banner = this.homeData.banner && this.homeData.banner.map(item => {
+						return {
+							...item,
+							img: `${config.qiniuSrc}${item.img}`
+						}
+					}) || []
+					this.homeData.news = this.homeData.news && this.homeData.news.map(item => {
 						return {
 							...item,
 							img: `${config.qiniuSrc}${item.img}`
@@ -160,6 +190,18 @@
 							cat_img: `${config.qiniuSrc}${item.cat_img}`
 						}
 					}) || []
+					this.nowNews = [...this.homeData.news]
+					if(this.nowNews.length >= 2) {
+						this.timer = setInterval(item => {
+							console.log('enter')
+							this.marginTop -= 56
+							setTimeout(() => {
+								let spliceArr = this.nowNews.splice(0,2)
+								this.nowNews = this.nowNews.concat(spliceArr)
+								this.marginTop = 0
+							},60)
+						}, 3000)
+					}
 				})
 			},
 			setStyle() {
@@ -268,6 +310,9 @@
 					line-height: 56upx;
 					font-size: 24upx;
 					color: #666;
+					.articles{
+						transition: all 0.5s;
+					}
 				}
 			}
 		}
@@ -286,8 +331,74 @@
 			margin-left: 20upx;
 			margin-top: 30upx;
 			margin-bottom: 30upx;
+			&.red{
+				border-left: 4px solid #BB271D;
+				.tel-num{
+					color: #818d9a;
+				}
+			}
 			.tel-num{
 				color: #fe3e12;
+			}
+		}
+		.news-list{
+			padding: 0 30upx;
+			.news-item{
+				margin-bottom: 20upx;
+				display: flex;
+				font-size: 24upx;
+				height: 188upx;
+				border-bottom: 1px solid #f2f1f1;
+				overflow: hidden;
+				.left{
+					width: 212upx;
+					height: 188upx;
+					margin-right: 20upx;
+					position: relative;
+					image{
+						width: 100%;
+						height: 100%;
+						border-radius: 6upx;
+					}
+					.new-title{
+						position: absolute;
+						left: 0px;
+						bottom: 0px;
+						display: block;
+						width: 100%;
+						text-align: center;
+						color: white;
+						background: #969393;
+						line-height: 44upx;
+						border-radius: 0 0 6upx 6upx;
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+					}
+				}
+				.right{
+					flex: 1;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-between;
+					.excerpt{
+						font-size: 30upx;
+						color: #303741;
+						line-height: 32upx;
+						margin-bottom: 10upx;
+						overflow : hidden;
+						text-overflow: ellipsis;
+						display: -webkit-box;
+						-webkit-line-clamp: 4;
+						-webkit-box-orient: vertical;
+					}
+					.create-time{
+						color: gray;
+						white-space: nowrap;
+						ext-overflow: ellipsis;
+						overflow: hidden;
+					}
+				}
 			}
 		}
 		.car-list{

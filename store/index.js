@@ -4,7 +4,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
 	state: {
-		loading:'0'
+		loading:'0',
+		selectQuestions: []
 	},
 	mutations: {
 		switch_loading(state,status){
@@ -18,6 +19,9 @@ const store = new Vuex.Store({
 			}else{
 				state.loading = status;
 			}
+		},
+		selectQuestion(state, selectQuestions) {
+			this.state.selectQuestions = selectQuestions
 		}
 	},
 	actions: {
