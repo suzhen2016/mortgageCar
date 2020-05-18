@@ -223,6 +223,7 @@
 					this.shadowActiveMenuArr[page_index] = JSON.parse(JSON.stringify(this.activeMenuArr[page_index]));
 					this.togglePage(this.showPage);
 				}
+				this.$emit('select', page_index, level1_index, level2_index, level3_index)
 			},
 			//写入结果，筛选
 			setFilterData(page_index) {

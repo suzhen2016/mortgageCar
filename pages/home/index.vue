@@ -18,7 +18,7 @@
 			</view>
 			<view class="right">
 				<view class="roll-wrap">
-					<view class="articles" :style="{'margin-top': marginTop + 'upx'}">
+					<view class="articles" :class="{'animate': animate}" :style="{'margin-top': marginTop + 'upx'}">
 						<navigator hover-class="none" :url="`/pages/news/newDetail?id=${item.id}`" class="article-item" v-for="(item, index) in nowNews" :key="index">{{item.title}}</navigator>
 					</view>
 				</view>
@@ -132,6 +132,7 @@
 				city: null,
 				nowNews: [],
 				marginTop: 0,
+				animate: false,
 				timer: null
 			}
 		},
@@ -163,6 +164,7 @@
 		onHide() {
 			if(this.timer) {
 				clearInterval(this.timer)
+				this.timer = null
 			}
 		},
 		methods: {
@@ -195,11 +197,13 @@
 						this.timer = setInterval(item => {
 							console.log('enter')
 							this.marginTop -= 56
+							this.animate = true
 							setTimeout(() => {
-								let spliceArr = this.nowNews.splice(0,2)
+								let spliceArr = this.nowNews.splice(0,1)
 								this.nowNews = this.nowNews.concat(spliceArr)
 								this.marginTop = 0
-							},60)
+								this.animate = false
+							},500)
 						}, 3000)
 					}
 				})
@@ -300,6 +304,11 @@
 					margin: 20upx;
 				}
 			}
+			@keyframes mymove
+			{
+				from {margin-top: 0;}
+				to {top:-56upx;}
+			}
 			.right{
 				padding: 10upx;
 				width: 75%;
@@ -311,7 +320,9 @@
 					font-size: 24upx;
 					color: #666;
 					.articles{
-						transition: all 0.5s;
+						&.animate{
+							animation:mymove .5s infinite;
+						}
 					}
 				}
 			}

@@ -87,7 +87,7 @@ export const getNewDetail = (params) => {
 }
 //获取车源列表
 export const getCarList = (params) => {
-	return $ajax.get({
+	return $ajax.post({
 		url: '/api/v1/get_cars_list/',
 		data: params
 	})
@@ -201,6 +201,20 @@ export const getMessageDetail = (params) => {
 export const deleteMessage = (params) => {
 	return $ajax.post({
 		url: '/api/v1/delete_bot_msg/',
+		data: params
+	})
+}
+//获取一级地址，根据一级地址 ID 获取二级地址
+export const getAddressList = (params) => {
+	return $ajax.post({
+		url: '/api/v1/get_address_list/',
+		data: params
+	})
+}
+//获取所有字母的一级品牌列表  根据一级品牌 ID 获取二级品牌
+export const getBrandList = (params) => {
+	return $ajax.post({
+		url: '/api/v1/get_brand_list/',
 		data: params
 	})
 }

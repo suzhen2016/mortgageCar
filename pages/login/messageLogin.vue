@@ -39,6 +39,7 @@
 		onHide() {
 			if(this.timer) {
 				clearInterval(this.timer)
+				this.timer = null
 			}
 		},
 		methods: {
