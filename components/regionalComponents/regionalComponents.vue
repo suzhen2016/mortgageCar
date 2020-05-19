@@ -168,7 +168,7 @@
 	}
 </script>
 
-<style lang="less">
+<style lang="scss">
 	.region-box {
 		position: fixed;
 		z-index: 12;

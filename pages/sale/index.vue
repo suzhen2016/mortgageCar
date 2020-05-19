@@ -33,11 +33,14 @@
 		</view>
 		<view class="form-item flex">
 			<view class="form-label">上牌日期</view>
-			<view class="form-content">选择日期</view>
+			<!-- <view class="form-content">选择日期</view> -->
+			<picker mode = "date" @change="dateChange" style="color: #666;font-size: 28upx">{{list_date ? list_date : '选择日期'}}</picker>
 		</view>
 		<view class="form-item flex">
 			<view class="form-label">所在地区</view>
-			<view class="form-content">请选择</view>
+			<picker style="color: #666;font-size: 28upx" mode="multiSelector" :range="addressRange" :value="city" @change="handleAddressChange" @columnchange="addresColumnchange" @cancel="addressCancel">
+				<view>{{address ? address : '请选择'}}</view>
+			</picker>
 		</view>
 		<view class="form-item flex">
 			<view class="form-label">行驶里程</view>
@@ -48,13 +51,13 @@
 		<view class="form-item flex">
 			<view class="form-label">排量</view>
 			<view class="form-content">
-				<input type="text">
+				<input type="number" v-model="displacement">
 			</view>
 		</view>
 		<view class="form-item flex">
 			<view class="form-label">售价</view>
 			<view class="form-content">
-				<input type="text"><text>万</text>
+				<input type="number" v-model="price"><text>万</text>
 			</view>
 		</view>
 		<view class="form-item flex">
@@ -87,8 +90,21 @@
 		data() {
 			return {
 				imageList: [],
-				maxImgCount: 9
+				maxImgCount: 9,
+				img_ids: '',
+				addressRange: [[], []],
+				city: [],
+				originProvinces: [],
+				originCitys: [],
+				address: '',
+				address_id: '',
+				list_date: '',
+				displacement: '',
+				price: ''
 			}
+		},
+		onLoad(){
+			this.addressInit()
 		},
 		methods: {
 			onEditorReady() {
@@ -162,11 +178,69 @@
 					urls: this.imageList
 				})
 			},
+			dateChange(e) {
+				this.list_date = e.detail.value
+			},
+			addressInit() {
+				this.$api.getAddressList({
+					address_level: 1
+				}).then(res => {
+					let result = res.result
+					this.originProvinces = result	
+					this.city[0] = 0
+					result = result.map(item => {
+						return item.name
+					})
+					this.addressRange[0] = result
+					this.$api.getAddressList({
+						address_pid: this.originProvinces[0].id,
+						address_level: 2
+					}).then(res => {
+						let result = res.result
+						this.originCitys = result
+						this.city[1] = 0
+						result = result.map(item => {
+							return item.name
+						})
+						this.addressRange.splice(1, 1 ,result)
+					})
+				})
+			},
+			handleAddressChange() {
+				this.address_id = this.originCitys[this.city[1]].id
+				this.address = this.originCitys[this.city[1]].name
+			},
+			addresColumnchange(e) {
+				let detail = e.detail
+				if(e.detail.column == 0) {
+					let address_pid = this.originProvinces[e.detail.value].id
+					this.city[0] = e.detail.value
+					this.$api.getAddressList({
+						address_pid: address_pid,
+						address_level: 2
+					}).then(res => {
+						let result = res.result
+						this.city[1] = 0
+						this.originCitys = result
+						result = result.map(item => {
+							return item.name
+						})
+						this.addressRange.splice(1, 1 ,result)
+					})
+				}else if(e.detail.column == 1) {
+					this.city[1] = e.detail.value
+				}
+			},
+			addressCancel() {
+				this.city = [0,0]
+				this.addressRange = [[],[]]
+				this.addressInit()
+			},
 			handlePublish() {
 				let token = '39cynet-76358255-2095-4dd9-932c-274702f99435';
 				let files = this.imageList.map(item => {
 					return {
-						name: 'upload_img',
+						name: 'batch_img',
 						file: item,
 						uri: item
 					}
@@ -174,7 +248,6 @@
 				uni.uploadFile({
 					url: config.multipleUploadUrl, 
 					files: files,
-					name: 'upload_img',
 					header: {
 						"Api-Token": token,
 						'Auth-Token': uni.getStorageSync("token")
@@ -183,7 +256,10 @@
 						
 					},
 					success: (uploadFileRes) => {
-						console.log(uploadFileRes)
+						this.img_ids = JSON.parse(uploadFileRes.data).result.map(item => {
+							return item.id
+						})
+						this.img_ids = this.img_ids.join(',')
 					}
 				});
 			}

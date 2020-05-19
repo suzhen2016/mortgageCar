@@ -9,51 +9,51 @@
 				<view class="filter-item">
 					<view class="title">品牌名称</view>
 					<view class="picker">
-						<picker mode="selector" :value="brandIndex" :range="brandList" @change="brandChange">
-							<view>{{brandIndex > -1 ? brandList[brandIndex] : '请选择品牌'}}</view>
+						<picker mode="selector" :value="brand_id" :range="brandOneList" @change="brandOneChange">
+							<view>{{brand_name}}</view>
 						</picker>
 					</view>
 				</view>
 				<view class="filter-item">
 					<view class="title">车系名称</view>
 					<view class="picker">
-						<picker mode="selector" :value="brandIndex" :range="brandList" @change="brandChange">
-							<view>{{brandIndex > -1 ? brandList[brandIndex] : '请选择车系'}}</view>
+						<picker :disabled="!brand_id" mode="selector" :value="car_id" :range="brandTwoList" @change="brandTwoChange">
+							<view>{{cars_name}}</view>
 						</picker>
 					</view>
 				</view>
 				<view class="filter-item">
 					<view class="title">车型名称</view>
 					<view class="picker">
-						<picker mode="selector" :value="brandIndex" :range="brandList" @change="brandChange">
-							<view>{{brandIndex > -1 ? brandList[brandIndex] : '请选择车系'}}</view>
+						<picker :disabled="!car_id" mode="selector" :value="model_id" :range="brandThreeList" @change="brandThreeChange">
+							<view>{{model_name}}</view>
 						</picker>
 					</view>
 				</view>
 				<view class="filter-item">
 					<view class="title">首次上牌时间</view>
 					<view class="picker">
-						<picker mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
-							<view class="uni-input">{{date}}</view>
+						<picker mode="date" :value="list_date" :start="startDate" :end="endDate" @change="bindDateChange">
+							<view class="uni-input">{{list_date}}</view>
 						</picker>
 					</view>
 				</view>
 				<view class="filter-item">
 					<view class="title">表显里程</view>
 					<view class="diatance">
-						<input type="digit" value="" /><text>万公里</text>
+						<input type="digit" v-model="mileage" /><text>万公里</text>
 					</view>
 				</view>
 				<view class="filter-item">
 					<view class="title">姓名</view>
 					<view class="diatance">
-						<input type="text" value="" />
+						<input type="text" v-model="name" />
 					</view>
 				</view>
 				<view class="filter-item">
 					<view class="title">手机号</view>
 					<view class="diatance">
-						<input type="number" value="" maxlength="11"/>
+						<input type="number" v-model="phone" maxlength="11"/>
 					</view>
 				</view>
 				<view class="filter-item multiple">
@@ -113,26 +113,112 @@
 	export default {
 		data() {
 			return {
-				brandIndex: -1,
-				brandList: new Array(10).fill(0),
-				date: getDate({
+				list_date: getDate({
 					format: true
 				}),
 				startDate:getDate('start'),
 				endDate:getDate('end'),
 				imageList: [],
-				maxImgCount: 4
+				maxImgCount: 4,
+				phone: '',
+				name: '',
+				mileage: '',
+				brand_name: '请选择品牌', //品牌
+				brand_id: '',
+				cars_name: '请选择车系', //车系
+				car_id: '',
+				model_name: '请选择车型', //车型
+				model_id: '',
+				originOneList: [],
+				brandOneList: [],
+				originTwoList: [],
+				brandTwoList: [],
+				originThreeList: [],
+				brandThreeList: []
 			}
 		},
 		onLoad() {
-			
+			this.getBrandOne()
 		},
 		methods: {
-			brandChange(e) {
-				
+			getBrandOne() {
+				this.$api.getBrandList({
+					brand_level: '1',
+				}).then(res => {
+					this.originOneList = res.result
+					let result = res.result.map(item => {
+						return `${item.letter.name} ${item.name}`
+					})
+					this.brandOneList = ['请选择品牌'].concat(result)
+				})
+			},
+			brandOneChange(e) {
+				let index = e.detail.value
+				let tmpId = this.brand_id
+				this.brand_name = this.brandOneList[index]
+				this.brand_id = index == 0 ? '' : this.originOneList[index - 1].id
+				if(index == 0) {
+					this.car_id = ''
+					this.cars_name = '请选择车系'
+					this.model_id = ''
+					this.model_name = '请选择车型'
+				}else{
+					if(tmpId != this.brand_id) {
+						this.car_id = ''
+						this.cars_name = '请选择车系'
+						this.model_id = ''
+						this.model_name = '请选择车型'
+					}
+					this.getBrandTwo()
+				}
+			},
+			getBrandTwo() {
+				this.$api.getBrandList({
+					brand_pid: this.brand_id,
+					brand_level: '2',
+				}).then(res => {
+					this.originTwoList = res.result
+					let result = res.result.map(item => {
+						return `${item.letter.name} ${item.name}`
+					})
+					this.brandTwoList = ['请选择车系'].concat(result)
+				})
+			},
+			brandTwoChange(e) {
+				let index = e.detail.value
+				let tmpId = this.car_id
+				this.cars_name = this.brandTwoList[index]
+				this.car_id = index == 0 ? '' : this.originTwoList[index - 1].id
+				if(index == 0) {
+					this.model_id = ''
+					this.model_name = '请选择车型'
+				}else{
+					if(tmpId != this.car_id) {
+						this.model_id = ''
+						this.model_name = '请选择车型'
+					}
+					this.getBrandThree()
+				}
+			},
+			getBrandThree() {
+				this.$api.getBrandList({
+					brand_pid: this.car_id,
+					brand_level: '3',
+				}).then(res => {
+					this.originThreeList = res.result
+					let result = res.result.map(item => {
+						return `${item.letter.name} ${item.name}`
+					})
+					this.brandThreeList = ['请选择车型'].concat(result)
+				})
+			},
+			brandThreeChange(e) {
+				let index = e.detail.value
+				this.model_name = this.brandThreeList[index]
+				this.model_id = index == 0 ? '' : this.originThreeList[index - 1].id
 			},
 			bindDateChange(e) {
-				this.date = e.detail.value
+				this.list_date = e.detail.value
 			},
 			close(e){
 				this.imageList.splice(e,1);
