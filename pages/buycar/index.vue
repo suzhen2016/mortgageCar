@@ -5,7 +5,7 @@
 			<view class="filter-container">
 				<view class="nav">
 					<block v-for="(item,index) in menu" :key="index">
-						<view class="first-menu" :class="{'on':filterIndex == index}" @tap="togglePage(index)">
+						<view class="first-menu" :class="{'on':false}" @tap="togglePage(index)">
 							<text class="name" v-if="index == 1 ">{{priceList[priceIndex].name}}</text>
 							<text class="name" v-if="index == 3">{{ageList[ageIndex].name}}</text>
 							<picker v-if="index == 0" mode="multiSelector" :range="brandRange" :value="brand" @change="handleBrandChange" @columnchange="brandColumnchange" @cancel="brandCancel">
@@ -66,7 +66,7 @@
 					auto: true, 
 					// noMoreSize: 4,
 					empty: {
-						tip: '~ 空空如也 ~', // 提示
+						tip: '~ 暂无信息 ~', // 提示
 						// btnText: '去看看'
 					}
 				},
@@ -187,7 +187,7 @@
 		methods: {
 			brandInit() {
 				this.$api.getBrandList({
-					letter_order: 'desc',
+					brand_level: '1',
 				}).then(res => {
 					let result = res.result
 					this.originBrandOne = result	
@@ -211,8 +211,9 @@
 				})
 			},
 			handleBrandChange() {
-				this.filter.address_id = this.originBrandTwo[this.brand[1]].id
+				this.filter.brand_id = this.originBrandTwo[this.brand[1]].id
 				this.brandDes = this.originBrandTwo[this.brand[1]].name
+				this.mescroll.resetUpScroll()
 			},
 			brandColumnchange(e) {
 				let detail = e.detail
@@ -268,6 +269,7 @@
 			handleAddressChange() {
 				this.filter.address_id = this.originCitys[this.city[1]].id
 				this.address = this.originCitys[this.city[1]].name
+				this.mescroll.resetUpScroll()
 			},
 			addresColumnchange(e) {
 				let detail = e.detail
@@ -298,13 +300,13 @@
 			togglePage(index) {
 				if(index == this.filterIndex) {
 					this.filterIndex = -1
-					this.triangleDeg[index] = 0
+					// this.triangleDeg[index] = 0
 				}else{
 					this.filterIndex = index
-					this.triangleDeg  = this.triangleDeg.map(item=> {
-						return 0
-					})
-					this.triangleDeg[index] = 180
+					// this.triangleDeg  = this.triangleDeg.map(item=> {
+					// 	return 0
+					// })
+					// this.triangleDeg[index] = 180
 					
 					if(this.filterIndex == 0) {
 						

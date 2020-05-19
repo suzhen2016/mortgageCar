@@ -101,7 +101,7 @@ export const getCarDetail = (params) => {
 }
 //获取求购车列表
 export const getCarBuyList = (params) => {
-	return $ajax.get({
+	return $ajax.post({
 		url: '/api/v1/get_request_buy_list/',
 		data: params
 	})
@@ -211,10 +211,45 @@ export const getAddressList = (params) => {
 		data: params
 	})
 }
+//根据 brand_level 获取对应的级别品牌
+export const getLevelBrandList = (params) => {
+	return $ajax.post({
+		url: '/api/v1/get_leval_brand_list/',
+		data: params
+	})
+}
 //获取所有字母的一级品牌列表  根据一级品牌 ID 获取二级品牌
 export const getBrandList = (params) => {
 	return $ajax.post({
 		url: '/api/v1/get_brand_list/',
+		data: params
+	})
+}
+// 获取车子级别表
+export const getCarLevelList = (params) => {
+	return $ajax.post({
+		url: '/api/v1/get_car_level/',
+		data: params
+	})
+}
+//创建求购车辆信息接口
+export const createRequestBuy = (params) => {
+	return $ajax.post({
+		url: '/api/v1/create_request_buy/',
+		data: params
+	})
+}
+//提交估价信息接口
+export const createValuation = (params) => {
+	return $ajax.post({
+		url: '/api/v1/create_valuation/',
+		data: params
+	})
+}
+//提交卖车买车信息接口
+export const createCar = (params) => {
+	return $ajax.post({
+		url: '/api/v1/create_car/',
 		data: params
 	})
 }

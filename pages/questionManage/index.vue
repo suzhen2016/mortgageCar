@@ -148,7 +148,7 @@
 			white-space: nowrap;
 			.tab-item{
 				display: inline-block;
-				width: 33%;
+				width: 160upx;
 				line-height: 80upx;
 				text-align: center;
 				color: #999;

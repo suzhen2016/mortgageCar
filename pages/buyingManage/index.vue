@@ -1,5 +1,8 @@
 <template>
-	<view class="question-container">
+	<view class="message-container">
+		<div class="input-container">
+			<input type="text" v-model="keyWord" placeholder="输入关键词索" @confirm="onConfirm"/>
+		</div>
 		<scroll-view scroll-x scroll-with-animation class="tab-box" :scroll-left="scrollLeft">
 			<view class="tab-item" v-for="(item, index) in tabs" :key="index" :class="{'active': selectedIndex == index}" :data-current="index" @tap="handleSelect">
 				<text>{{item.value}}</text>
@@ -8,9 +11,12 @@
 		<view class="question-content">
 			<swiper class="swiper" :current="selectedIndex" @change="swiperChange">
 				<swiper-item v-for="(item, index) in tabs" :key="index">
-					<mescroll-item :i="parseFloat(item.key)" :index="selectedIndex"></mescroll-item>
+					<mescroll-item :i="parseFloat(item.key)" :index="selectedIndex" :keyWord="keyWord" :keyWordChange="keyWordChange"></mescroll-item>
 				</swiper-item>
 			</swiper>
+		</view>
+		<view class="fixed-bottom" v-if="selectRequestCars.length > 0">
+			<view class="delete-btn" @tap="handleDelete">删除选中</view>
 		</view>
 	</view>
 </template>
@@ -23,22 +29,29 @@
 		},
 		data() {
 			return {
+				keyWord: '',
 				selectedIndex: 0,
 				scrollLeft: '',
+				keyWordChange: false,
 				tabs: [
 					{
 						key: 0,
-						value: '全部问题'
+						value: '已发布'
 					},
 					{
 						key: 1,
-						value: '等待解决'
+						value: '审核中'
 					},
 					{
 						key: 2,
-						value: '已经解决'
+						value: '未通过'
 					}
 				]
+			}
+		},
+		computed: {
+			selectRequestCars() {
+				return this.$store.state.selectRequestCars
 			}
 		},
 		onNavigationBarButtonTap() {
@@ -46,7 +59,16 @@
 				url: '/pages/buying/publish'
 			})
 		},
+		onUnload() {
+			this.$store.commit('selectRequestCar',[] )
+		},
 		methods: {
+			onConfirm() {
+				this.keyWordChange = true
+				setTimeout(() => {
+					this.keyWordChange = false
+				}, 60)
+			},
 			handleSelect(e) {
 				let cur = e.currentTarget.dataset.current;
 				if (this.selectedIndex == cur) {
@@ -58,6 +80,13 @@
 			swiperChange(e) {
 				this.selectedIndex = e.detail.current
 				this.checkCor();
+				if(this.selectRequestCars.length > 0) {
+					this.keyWordChange = true
+					setTimeout(() => {
+						this.keyWordChange = false
+					}, 60)
+				}
+				this.$store.commit('selectRequestCar',[] )
 			},
 			//判断当前滚动超过一屏时，设置tab标题滚动条。
 			checkCor() {
@@ -67,16 +96,50 @@
 				} else {
 					this.scrollLeft = 0
 				}
+			},
+			handleDelete() {
+				uni.showModal({
+				    title: '提示',
+				    content: '确定要删除选中问答吗？',
+				    success: (res) => {
+				        if (res.confirm) {
+							let ids = this.selectRequestCars.map(item => {
+								return item.id
+							})
+				           this.$api.deleteQuestion({
+								ids
+				           }).then(res => {
+								this.$alert('删除成功')
+								this.$store.commit('selectRequestCar',[] )
+								this.keyWordChange = true
+								setTimeout(() => {
+									this.keyWordChange = false
+								}, 60)
+				           })
+				        } else if (res.cancel) {
+				            console.log('用户点击取消');
+				        }
+				    }
+				});
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	.question-container{
-		display: flex;
-		flex-direction: column;
+	.message-container{
 		height: 100vh;
+		.input-container{
+			padding: 32upx;
+			input{
+				background: #f0f0f0 url(../../static/image/mine/ico-search.png) no-repeat 12upx center;
+				background-size: 32upx 32upx;
+				padding: 0 56upx;
+				border: none;
+				height: 64upx;
+				line-height: 64upx;
+			}
+		}
 		.tab-box{
 			display: flex;
 			height: 80upx;
@@ -85,7 +148,7 @@
 			white-space: nowrap;
 			.tab-item{
 				display: inline-block;
-				width: 33%;
+				width: 160upx;
 				line-height: 80upx;
 				text-align: center;
 				color: #999;
@@ -106,9 +169,32 @@
 			}
 		}
 		.question-content{
-			flex: 1;
+			height: calc(100vh - 452upx);
 			.swiper{
 				height: 100%;
+			}
+		}
+		.fixed-bottom{
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 96upx;
+			background: #F8F8F8;
+			display: flex;
+			align-items: center;
+			flex-direction: row-reverse;
+			z-index: 10;
+			.delete-btn{
+				width: 160upx;
+				height: 60upx;
+				line-height: 60upx;
+				text-align: center;
+				border-radius: 8upx;
+				background: #E64340;
+				color: #FFFFFF;
+				font-size: 24upx;
+				margin-right: 20upx;
 			}
 		}
 	}

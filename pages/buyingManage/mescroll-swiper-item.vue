@@ -1,22 +1,23 @@
 <template>
 	<mescroll-uni :fixed="false" top="0" :down="downOption" @down="downCallback" :up="upOption" @up="upCallback" @init="mescrollInit">
-		<view class="buying-list">
-			<navigator hover-class="none" url="/pages/buying/detail" class="buying-item" v-for="(item,index) in list" :key="index">
-				<view class="car-text">
-					<view class="name">
-						<view class="title">急需求购车一台</view>
-						<view class="price">30.00万</view>
-					</view>
-					<view class="time">2020年 | 2万公里</view>
-					<view class="time">湖北省 » 武汉</view>
+		<view class="question-list">
+			<view class="address-item" v-for="(item, index) in list" :key="index" @tap="goDetail(item.id)">
+				<view class="item-top">
+					<view class="address-detail">{{item.title}}</view>
+					<view class="select" :class="{'checked': item.checked}" @tap.stop="handleSelect(index)"></view>
 				</view>
-			</navigator>
+				<view class="item-bottom">
+					<view class="phone">{{item.created_at | momentTime}}</view>
+					<view class="operator" @tap.stop="handleOperator(item.id)"></view>
+				</view>
+			</view>
 		</view>
 	</mescroll-uni>
 </template>
 
 <script>
 	import MescrollUni from "@/components/mescroll-uni/mescroll-uni.vue";
+	import { momentTime } from '@/filters'
 	export default {
 		components: {
 			MescrollUni
@@ -28,7 +29,18 @@
 				default(){
 					return 0
 				}
+			},
+			keyWord: {
+				type: String,
+				default: ''
+			},
+			keyWordChange: {
+				type: Boolean,
+				default: false
 			}
+		},
+		filters: {
+			momentTime
 		},
 		data() {
 			return {
@@ -55,10 +67,45 @@
 			}
 		},
 		methods: {
-			goDetail(item) {
-				uni.navigateTo({
-					url: './questionDetail'
+			handleSelect(index) {
+				this.list[index].checked = !this.list[index].checked 
+				let questions = this.list.filter(item => {
+					return item.checked
 				})
+				this.$store.commit('selectRequestCar',questions )
+			},
+			goDetail(id) {
+				if(this.index == 1) {
+					uni.navigateTo({
+						url: `/pages/buying/edit?id=${id}`
+					})
+				}
+			},
+			handleOperator(id) {
+				uni.showActionSheet({
+				    itemList: ['删除'],
+				    success:  (res) => {
+				        uni.showModal({
+				            title: '提示',
+				            content: '确定要删除吗？此操作不可撤销',
+				            success: (res) => {
+				                if (res.confirm) {
+				                    this.$api.deleteQuestion({
+										ids: [id]
+									}).then(res => {
+										this.$alert('删除成功')
+										this.mescroll.resetUpScroll()
+									})
+				                } else if (res.cancel) {
+				                    console.log('用户点击取消');
+				                }
+				            }
+				        });
+				    },
+				    fail:  (res) => {
+				        console.log(res.errMsg);
+				    }
+				});
 			},
 			// mescroll组件初始化的回调,可获取到mescroll对象
 			mescrollInit(mescroll) {
@@ -84,17 +131,24 @@
 				})
 			},
 			getListDataFromNet(pageNum,pageSize,successCallback,errorCallback) {
-				successCallback && successCallback([1,2,3]);
-				// this.$api.getCourseList({
-				// 	pageStart: pageNum,
-				// 	pageSize,
-				// 	status: this.index == 0 ? '' : this.index,
-				// 	userId: uni.getStorageSync('userInfo').id
-				// }).then(res => {
-				// 	successCallback && successCallback(res.data.result);
-				// }).catch(err => {
-				// 	errorCallback && errorCallback();
-				// })
+				// successCallback && successCallback([1,2,3]);
+				this.$api.getCarBuyList({
+					page: pageNum,
+					number: pageSize,
+					status: this.index == 0 ? 'passed' : this.index == 1 ? 'checking' : 'unpassed',
+					title: this.keyWord,
+					user_id: uni.getStorageSync('userInfo').id
+				}).then(res => {
+					let result = res.result.map(item => {
+						return {
+							...item,
+							checked: false
+						}
+					})
+					successCallback && successCallback(result);
+				}).catch(err => {
+					errorCallback && errorCallback();
+				})
 			}
 		},
 		watch: {
@@ -104,41 +158,53 @@
 					this.mescroll.resetUpScroll()
 				}
 				// this.mescroll.triggerDownScroll();
+			},
+			keyWordChange(val) {
+				if(val) {
+					this.isInit = false
+					this.mescroll.resetUpScroll()
+				}
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	.buying-list{
-		.buying-item{
-			border-bottom: 1px solid #eee;
-			padding: 20upx;
-			.car-text{
-				width: 90%;
-				margin-left: 30upx;
-				.name{
-					font-size: 32upx;
-					height: 46upx;
-					line-height: 46upx;
-					color: #020202;
-					display: flex;
-					align-items: center;
-					justify-content: space-between;
-					.title{
-						max-width: 400upx;
-						overflow: hidden;
-						text-overflow: ellipsis;
-					}
-					.price{
-						font-size: 34upx;
-						color: #BB271d;
-					}
+	.question-list{
+		.address-item{
+			box-shadow: 0px 0px 10upx #cbcbcb;
+			padding: 8upx 10upx;
+			margin: 10upx 12upx;
+			font-size:28upx;
+			.item-top, .item-bottom{
+				height: 76upx;
+				line-height: 30upx;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+			.phone{
+				font-size:24upx;
+				color: #999999;
+			}
+			.select{
+				width: 64upx;
+				height: 60upx;
+				background: url('/static/image/mine/icon-check.png') no-repeat center center;
+				background-size: 40upx 40upx;
+				font-size: 24upx;
+				color: #E46B09;
+				&.checked{
+					background-image: url('/static/image/mine/icon-checked.png');
 				}
-				.time{
-					font-size: 26upx;
-					color: #999999;
-				}
+			}
+			.operator{
+				width: 64upx;
+				height: 60upx;
+				background: url('/static/image/mine/icon-sheet.png') no-repeat center center;
+				background-size: 40upx 40upx;
+				font-size: 24upx;
+				color: #E46B09;
 			}
 		}
 	}

@@ -46,9 +46,16 @@
 			
 		},
 		onNavigationBarButtonTap() {
-			uni.navigateTo({
-				url: './publish'
-			})
+			let token = uni.getStorageSync('token')
+			if(token) {
+				uni.navigateTo({
+					url: './publish'
+				})
+			}else{
+				uni.navigateTo({
+					url: '/pages/login/login'
+				})
+			}
 		},
 		methods: {
 			// mescroll组件初始化的回调,可获取到mescroll对象
@@ -78,7 +85,8 @@
 				// successCallback && successCallback([1,2,3]);
 				this.$api.getCarBuyList({
 					page: pageNum,
-					number: pageSize
+					number: pageSize,
+					status: 'passed'
 				}).then(res => {
 					let result = res.result && res.result.map(item => {
 						return {

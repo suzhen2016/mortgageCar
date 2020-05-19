@@ -69,7 +69,7 @@
 				<uEditor class="ql-container"></uEditor>
 			</view>
 		</view>
-		<view class="submit-btn">发布</view>
+		<view class="submit-btn" @tap="handlePublish">发布</view>
 	</view>
 </template>
 
@@ -161,6 +161,31 @@
 					current: current,
 					urls: this.imageList
 				})
+			},
+			handlePublish() {
+				let token = '39cynet-76358255-2095-4dd9-932c-274702f99435';
+				let files = this.imageList.map(item => {
+					return {
+						name: 'upload_img',
+						file: item,
+						uri: item
+					}
+				})
+				uni.uploadFile({
+					url: config.multipleUploadUrl, 
+					files: files,
+					name: 'upload_img',
+					header: {
+						"Api-Token": token,
+						'Auth-Token': uni.getStorageSync("token")
+					},
+					formData: {
+						
+					},
+					success: (uploadFileRes) => {
+						console.log(uploadFileRes)
+					}
+				});
 			}
 		}
 	}

@@ -260,6 +260,24 @@
 			}
 		},
 		{
+			"path": "pages/buying/edit",
+			"style": {
+				"navigationBarTitleText": "求购修改",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [
+							{
+								"text": "取消" ,
+								"float":"right",
+								"fontSize":"14px",
+								"width": "40px"
+							}	
+						]
+					}
+				}
+			}
+		},
+		{
 			"path": "pages/message/index",
 			"style": {
 				"navigationBarTitleText": "站内信件",

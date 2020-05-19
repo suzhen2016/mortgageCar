@@ -5,7 +5,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 	state: {
 		loading:'0',
-		selectQuestions: []
+		selectQuestions: [], //问答管理选择
+		selectRequestCars: [], //求购管理选择
 	},
 	mutations: {
 		switch_loading(state,status){
@@ -22,6 +23,9 @@ const store = new Vuex.Store({
 		},
 		selectQuestion(state, selectQuestions) {
 			this.state.selectQuestions = selectQuestions
+		},
+		selectRequestCar(state, selectRequestCars) {
+			this.state.selectRequestCars = selectRequestCars
 		}
 	},
 	actions: {
