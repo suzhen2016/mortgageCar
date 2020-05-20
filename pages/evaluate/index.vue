@@ -53,7 +53,7 @@
 				<view class="filter-item">
 					<view class="title">手机号</view>
 					<view class="diatance">
-						<input type="number" v-model="phone" maxlength="11"/>
+						<input type="number" v-model="phone" maxlength="11" style="width:300upx"/>
 					</view>
 				</view>
 				<view class="filter-item multiple">
@@ -85,7 +85,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="submit-btn">估价</view>
+		<view class="submit-btn" @tap="handleSubmit">估价</view>
 	</view>
 </template>
 
@@ -224,7 +224,7 @@
 				this.imageList.splice(e,1);
 			},
 			chooseImage: async function() {
-				if (this.imageList.length === 9) {
+				if (this.imageList.length === this.maxImgCount) {
 					let isContinue = await this.isFullImg();
 					console.log("是否继续?", isContinue);
 					if (!isContinue) {
@@ -282,6 +282,80 @@
 					current: current,
 					urls: this.imageList
 				})
+			},
+			handleSubmit() {
+				if(!this.brand_id) {
+					return this.$alert('请选择品牌')
+				}
+				if(!this.car_id) {
+					return this.$alert('请选择车系')
+				}
+				if(!this.model_id) {
+					return this.$alert('请选择车型')
+				}
+				if(!this.list_date) {
+					return this.$alert('请选择上牌日期')
+				}
+				if(!this.mileage) {
+					return this.$alert('请输入表显里程')
+				}
+				if(!this.name) {
+					return this.$alert('请输入姓名')
+				}
+				if(!this.phone) {
+					return this.$alert('请输入电话')
+				}
+				if(!this.imageList) {
+					return this.$alert('请上传汽车图片')
+				}
+				let token = '39cynet-76358255-2095-4dd9-932c-274702f99435';
+				let files = this.imageList.map(item => {
+					return {
+						name: 'batch_img',
+						file: item,
+						uri: item
+					}
+				})
+				uni.uploadFile({
+					url: config.multipleUploadUrl, 
+					files: files,
+					header: {
+						"Api-Token": token,
+						'Auth-Token': uni.getStorageSync("token")
+					},
+					formData: {
+						
+					},
+					success: (uploadFileRes) => {
+						let img_ids = JSON.parse(uploadFileRes.data).result.map(item => {
+							return item.id
+						})
+						img_ids = img_ids.join(',')
+						this.$api.createValuation({
+							user_id: uni.getStorageSync('userInfo').id,
+							img_ids: img_ids,
+							mileage: this.mileage,
+							brand_name: this.brand_name,
+							cars_name: this.cars_name,
+							model_name: this.model_name,
+							list_date: this.list_date,
+							phone: this.phone,
+							name: this.name
+						}).then(res => {
+							this.$alert('提交评估信息成功，等待估价')
+							this.imageList = []
+							this.mileage= ''
+							this.brand_name = '请选择品牌'
+							this.brand_id = ''
+							this.cars_name = '请选择车系'
+							this.car_id = ''
+							this.model_name = '请选择车型'
+							this.model_id = ''
+							this.phone = ''
+							this.name = ''
+						})
+					}
+				});
 			}
 		}
 	}

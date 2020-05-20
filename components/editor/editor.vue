@@ -74,6 +74,10 @@
 			showImage: {
 				type: Boolean,
 				default:true
+			},
+			html: {
+				type: String,
+				default:''
 			}
 		},
 		data() {
@@ -84,7 +88,7 @@
 		},
 		methods: {
 			onInput(e) {
-				this.$emit('change', e.detail.html)
+				this.$emit('change', e.detail.html, this.editorCtx)
 			},
 			readOnlyChange() {
 				this.readOnly = !this.readOnly
@@ -92,6 +96,9 @@
 			onEditorReady() {
 				uni.createSelectorQuery().select('#editor').context((res) => {
 					this.editorCtx = res.context
+					this.editorCtx.setContents({
+						html: this.html
+					})
 				}).exec()
 			},
 			undo() {

@@ -1,5 +1,11 @@
 <template>
 	<view class="sale-container">
+		<view class="form-item flex">
+			<view class="form-label">标题</view>
+			<view class="form-content">
+				<input type="text" v-model="title" style="width: 300upx">
+			</view>
+		</view>
 		<view class="form-item">
 			<view class="form-label">汽车图片</view>
 			<view class="uni-list list-pd">
@@ -29,11 +35,12 @@
 		</view>
 		<view class="form-item flex">
 			<view class="form-label">车型</view>
-			<view class="form-content">选择车型</view>
+			<picker mode="multiSelector" style="color: #666;font-size: 28upx" :range="brandRange" :value="brand" @change="handleBrandChange" @columnchange="brandColumnchange" @cancel="brandCancel">
+				<view>{{brandDes ? brandDes : '选择车型'}}</view>
+			</picker>
 		</view>
 		<view class="form-item flex">
 			<view class="form-label">上牌日期</view>
-			<!-- <view class="form-content">选择日期</view> -->
 			<picker mode = "date" @change="dateChange" style="color: #666;font-size: 28upx">{{list_date ? list_date : '选择日期'}}</picker>
 		</view>
 		<view class="form-item flex">
@@ -45,7 +52,7 @@
 		<view class="form-item flex">
 			<view class="form-label">行驶里程</view>
 			<view class="form-content">
-				<input type="text"><text>万公里</text>
+				<input type="number" v-model="kilometre"><text>万公里</text>
 			</view>
 		</view>
 		<view class="form-item flex">
@@ -63,13 +70,13 @@
 		<view class="form-item flex">
 			<view class="form-label">底价</view>
 			<view class="form-content">
-				<input type="text"><text>万</text>
+				<input type="number" v-model="low_price"><text>万</text>
 			</view>
 		</view>
 		<view class="form-item">
 			<view class="label">详细内容<text>（*不能低于10个字，不出现联系方式）</text></view>
 			<view class="form-content">
-				<uEditor class="ql-container"></uEditor>
+				<uEditor class="ql-container" @change="getContent"></uEditor>
 			</view>
 		</view>
 		<view class="submit-btn" @tap="handlePublish">发布</view>
@@ -89,28 +96,39 @@
 		},
 		data() {
 			return {
+				editorCtx: null,  //编辑器
+				title: '',
 				imageList: [],
 				maxImgCount: 9,
 				img_ids: '',
+				detail: '',
 				addressRange: [[], []],
 				city: [],
 				originProvinces: [],
 				originCitys: [],
 				address: '',
 				address_id: '',
+				brandRange: [[], []],
+				originBrandOne: [],
+				originBrandTwo: [],
+				brand: [],
+				brand_id: '',
+				brandDes: '',
 				list_date: '',
 				displacement: '',
-				price: ''
+				price: '',
+				low_price: '',
+				kilometre: ''
 			}
 		},
 		onLoad(){
 			this.addressInit()
+			this.brandInit()
 		},
 		methods: {
-			onEditorReady() {
-				uni.createSelectorQuery().select('#editor').context((res) => {
-					this.editorCtx = res.context
-				}).exec()
+			getContent(e, editorCtx) {
+				this.detail = e
+				this.editorCtx = editorCtx
 			},
 			upload(e) {
 				this.imageList = e
@@ -236,7 +254,92 @@
 				this.addressRange = [[],[]]
 				this.addressInit()
 			},
+			brandInit() {
+				this.$api.getBrandList({
+					brand_level: '1',
+				}).then(res => {
+					let result = res.result
+					this.originBrandOne = result	
+					this.brand[0] = 0
+					result = result.map(item => {
+						return `${item.letter.name}-${item.name}`
+					})
+					this.brandRange[0] = result
+					this.$api.getBrandList({
+						brand_pid: this.originBrandOne[0].id,
+						brand_level: '2'
+					}).then(res => {
+						let result = res.result
+						this.originBrandTwo = result
+						this.brand[1] = 0
+						result = result && result.map(item => {
+							return `${item.letter.name}-${item.name}`
+						}) || []
+						this.brandRange.splice(1, 1 ,result)
+					})
+				})
+			},
+			handleBrandChange() {
+				this.brand_id = this.originBrandTwo[this.brand[1]].id
+				this.brandDes = this.originBrandTwo[this.brand[1]].name
+			},
+			brandColumnchange(e) {
+				let detail = e.detail
+				if(e.detail.column == 0) {
+					let brandId = this.originBrandOne[e.detail.value].id
+					this.brand[0] = e.detail.value
+					this.$api.getBrandList({
+						brand_pid: brandId,
+						brand_level: '2'
+					}).then(res => {
+						let result = res.result
+						this.brand[1] = 0
+						this.originBrandTwo = result
+						result = result && result.map(item => {
+							return `${item.letter.name}-${item.name}`
+						}) || []
+						this.brandRange.splice(1, 1 ,result)
+					})
+				}else if(e.detail.column == 1) {
+					this.brand[1] = e.detail.value
+				}
+			},
+			brandCancel() {
+				this.brand = [0,0]
+				this.brandRange = [[],[]]
+				this.brandInit()
+			},
 			handlePublish() {
+				if(!this.title) {
+					return this.$alert('请输入标题')
+				}
+				if(!this.imageList) {
+					return this.$alert('请上传汽车图片')
+				}
+				if(!this.brand_id) {
+					return this.$alert('请选择车型')
+				}
+				if(!this.list_date) {
+					return this.$alert('请选择上牌日期')
+				}
+				if(!this.address_id) {
+					return this.$alert('请选择所在地区')
+				}
+				if(!this.kilometre) {
+					return this.$alert('请输入行驶里程')
+				}
+				if(!this.displacement) {
+					return this.$alert('请输入排量')
+				}
+				if(!this.price) {
+					return this.$alert('请输入售价')
+				}
+				if(!this.low_price) {
+					return this.$alert('请输入底价')
+				}
+				if(!this.detail) {
+					return this.$alert('请输入详细内容')
+				}
 				let token = '39cynet-76358255-2095-4dd9-932c-274702f99435';
 				let files = this.imageList.map(item => {
 					return {
@@ -260,6 +363,39 @@
 							return item.id
 						})
 						this.img_ids = this.img_ids.join(',')
+						this.$api.createCar({
+							side: 'SELL',
+							user_id: uni.getStorageSync('userInfo').id,
+							title: this.title,
+							img_ids: this.img_ids,
+							brand_id: this.brand_id,
+							list_date: this.list_date,
+							address_id: this.address_id,
+							kilometre: this.kilometre,
+							displacement:  this.displacement,
+							price: this.price,
+							low_price: this.low_price,
+							detail: this.detail
+						}).then(res => {
+							// uni.navigateTo({
+							// 	url: '/pages/carSource/index'
+							// })
+							this.imageList = []
+							this.title = ''
+							this.brand_id = ''
+							this.brandDes = ''
+							this.list_date = ''
+							this.address_id = ''
+							this.address = ''
+							this.kilometre = ''
+							this.displacement = ''
+							this.price = ''
+							this.low_price = ''
+							this.detail = ''
+							this.editorCtx.setContents({
+								html: ''
+							})
+						})
 					}
 				});
 			}
@@ -269,7 +405,7 @@
 
 <style lang="scss">
 	.sale-container{
-		padding: 0 30upx;
+		padding: 30upx;
 		.form-item{
 			padding: 12upx 0;
 			&.flex{
