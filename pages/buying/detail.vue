@@ -7,7 +7,7 @@
 			<view class="parameter-configure-list">
 				<view class="list-item">
 					<view>品牌</view>
-					<view>{{carDetail && carDetail.brand.top_name}} » {{carDetail && carDetail.brand.level_name}}</view>
+					<view>{{carDetail && carDetail.brand.brand_name.name}} » {{carDetail && carDetail.brand.cars_name.name}}</view>
 				</view>
 				<view class="list-item">
 					<view>发布时间</view>
@@ -15,7 +15,7 @@
 				</view>
 				<view class="list-item">
 					<view>归属地</view>
-					<view>{{carDetail && carDetail.address.province}} » {{carDetail && carDetail.address.city}}</view>
+					<view>{{carDetail && carDetail.address.province.name}} » {{carDetail && carDetail.address.city.name}}</view>
 				</view>
 				<view class="list-item" style="color: #ff6d02">
 					<view>期望价格</view>

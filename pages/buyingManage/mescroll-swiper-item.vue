@@ -90,8 +90,8 @@
 				            content: '确定要删除吗？此操作不可撤销',
 				            success: (res) => {
 				                if (res.confirm) {
-				                    this.$api.deleteQuestion({
-										ids: [id]
+				                    this.$api.deleteRequestBuy({
+										request_buy_ids: id
 									}).then(res => {
 										this.$alert('删除成功')
 										this.mescroll.resetUpScroll()

@@ -20,6 +20,24 @@
 							}	
 						]
 					}
+				},
+				"h5": {
+					"titleNView": {
+						"searchInput": {
+							"backgroundColor": "#fff",
+							"borderRadius": "6px", //输入框圆角
+							"placeholder": "搜索品牌或车型",
+							"disabled": true
+						},
+						"buttons": [
+							{
+								"text": "全国" ,
+								"float":"left",
+								"fontSize":"12px",
+								"width": "auto"
+							}	
+						]
+					}
 				}
 			}
 		},
@@ -768,7 +786,7 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "抵押车出售信息平台_抵押车网_抵押车直卖_抵押车买卖安全交易信息平台_久久泰抵押车网",
+		"navigationBarTitleText": "抵押车出售信息平台_抵押车网_抵押车直卖_抵押车买卖安全交易信息平台_39车源网",
 		"navigationBarBackgroundColor": "#BB271D",
 		"backgroundColor": "#F8F8F8"
 	},

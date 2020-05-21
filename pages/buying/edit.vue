@@ -95,11 +95,43 @@
 				request_buy_id: this.id
 			}).then(res => {
 				let data = res.result
-				
+				this.title = data.title
+				this.price = data.price
+				this.name = data.name
+				this.phone = data.phone
+				this.kilometre = data.kilometre
+				this.note = data.note
+				this.levelName = data.level
+				this.car_age = data.car_age
+				let carAgeList = [
+					{
+						name: '====',
+						value: ''
+					},
+					{
+						name: '1年以内',
+						value: 'LessOne'
+					},
+					{
+						name: '1到3年',
+						value: 'OneThree'
+					},
+					{
+						name: '3到5年',
+						value: 'ThreeFive'
+					},
+					{
+						name: '5年以上',
+						value: 'FiveMore'
+					}
+				]
+				this.carAgeName = carAgeList.filter(item => {
+					return item.value == this.car_age
+				})[0].name
+				this.brandInit(data)
+				this.addressInit(data)
+				this.loadLevelData()
 			})
-			this.brandInit()
-			this.addressInit()
-			this.loadLevelData()
 		},
 		methods:{
 			handleLevelChange(e) {
@@ -109,19 +141,30 @@
 			loadLevelData() {
 				this.$api.getCarLevelList().then(res => {
 					this.levelList = res.result
+					let result = this.levelList.filter(item => {
+						return item.name == this.levelName
+					})
+					this.level_id  = result && result[0].id || ''
 					let levelRange = this.levelList.map(item => {
 						return item.name
 					})
 					this.levelRange = ['===='].concat(levelRange)
 				})
 			},
-			brandInit() {
+			brandInit(data) {
 				this.$api.getBrandList({
 					brand_level: '1',
 				}).then(res => {
 					let result = res.result
-					this.originBrandOne = result	
-					this.brand[0] = 0
+					this.originBrandOne = result
+					if(data){
+						this.brand[0] = this.originBrandOne.findIndex(item => {
+							return data.brand.brand_name.id == item.id
+						})
+					}else{
+						this.brand[0] = 0
+					}
+					
 					result = result.map(item => {
 						return `${item.letter.name}-${item.name}`
 					})
@@ -132,11 +175,21 @@
 					}).then(res => {
 						let result = res.result
 						this.originBrandTwo = result
-						this.brand[1] = 0
+						if(data) {
+							this.brand[1] = this.originBrandTwo.findIndex(item => {
+								return data.brand.cars_name.id == item.id
+							})
+						}else{
+							this.brand[1] = 0
+						}
 						result = result && result.map(item => {
 							return `${item.letter.name}-${item.name}`
 						}) || []
 						this.brandRange.splice(1, 1 ,result)
+						if(data) {
+							this.brand_id = this.originBrandTwo[this.brand[1]].id
+							this.brandDes = this.originBrandTwo[this.brand[1]].name
+						}
 					})
 				})
 			},
@@ -170,13 +223,19 @@
 				this.brandRange = [[],[]]
 				this.brandInit()
 			},
-			addressInit() {
+			addressInit(data) {
 				this.$api.getAddressList({
 					address_level: 1
 				}).then(res => {
 					let result = res.result
-					this.originProvinces = result	
-					this.city[0] = 0
+					this.originProvinces = result
+					if(data) {
+						this.city[0] = this.originProvinces.findIndex(item => {
+							return data.address.province.id == item.id
+						})
+					}else{
+						this.city[0] = 0
+					}
 					result = result.map(item => {
 						return item.name
 					})
@@ -187,11 +246,21 @@
 					}).then(res => {
 						let result = res.result
 						this.originCitys = result
-						this.city[1] = 0
+						if(data) {
+							this.city[1] = this.originCitys.findIndex(item => {
+								return data.address.city.id == item.id
+							})
+						}else{
+							this.city[1] = 0
+						}
 						result = result.map(item => {
 							return item.name
 						})
 						this.addressRange.splice(1, 1 ,result)
+						if(data) {
+							this.address_id = this.originCitys[this.city[1]].id
+							this.address = this.originCitys[this.city[1]].name
+						}
 					})
 				})
 			},
@@ -366,7 +435,7 @@
 			font-size: 28upx;
 		}
 		.first-menu {
-			width: 20%;
+			width: 21%;
 			height: 64upx;
 			border: #B2B2B2 1px solid;
 			font-size: 13px;

@@ -1,11 +1,13 @@
 <template>
 	<mescroll-uni :fixed="false" top="0" :down="downOption" @down="downCallback" :up="upOption" @up="upCallback" @init="mescrollInit">
 		<view class="question-list">
-			<view class="question-item" v-for="(item, index) in list" :key="index" @tap="goDetail(item)">
-				<view class="question-title">抵押车安保措施怎么做？</view>
-				<view class="question-footer">
-					<view class="question-time">2019-09-16</view>
-					<view class="question-state">已关闭</view>
+			<view class="address-item" v-for="(item, index) in list" :key="index" @tap="goDetail(item.id)">
+				<view class="item-top">
+					<view class="address-detail">{{item.title}}</view>
+				</view>
+				<view class="item-bottom">
+					<view class="phone">{{item.created_at | momentTime}}</view>
+					<view class="operator" @tap.stop="handleOperator(item.id)"></view>
 				</view>
 			</view>
 		</view>
@@ -14,6 +16,7 @@
 
 <script>
 	import MescrollUni from "@/components/mescroll-uni/mescroll-uni.vue";
+	import { momentTime } from '@/filters'
 	export default {
 		components: {
 			MescrollUni
@@ -25,7 +28,18 @@
 				default(){
 					return 0
 				}
+			},
+			keyWord: {
+				type: String,
+				default: ''
+			},
+			keyWordChange: {
+				type: Boolean,
+				default: false
 			}
+		},
+		filters: {
+			momentTime
 		},
 		data() {
 			return {
@@ -52,10 +66,43 @@
 			}
 		},
 		methods: {
-			goDetail(item) {
-				uni.navigateTo({
-					url: './questionDetail'
+			handleSelect(index) {
+				this.list[index].checked = !this.list[index].checked 
+				let questions = this.list.filter(item => {
+					return item.checked
 				})
+				this.$store.commit('selectQuestion',questions )
+			},
+			goDetail(id) {
+				uni.navigateTo({
+					url: `/pages/question/questionDetail?id=${id}`
+				})
+			},
+			handleOperator(id) {
+				uni.showActionSheet({
+				    itemList: ['删除'],
+				    success:  (res) => {
+				        uni.showModal({
+				            title: '提示',
+				            content: '确定要删除吗？此操作不可撤销',
+				            success: (res) => {
+				                if (res.confirm) {
+				                    this.$api.deleteCar({
+										car_ids: id
+									}).then(res => {
+										this.$alert('删除成功')
+										this.mescroll.resetUpScroll()
+									})
+				                } else if (res.cancel) {
+				                    console.log('用户点击取消');
+				                }
+				            }
+				        });
+				    },
+				    fail:  (res) => {
+				        console.log(res.errMsg);
+				    }
+				});
 			},
 			// mescroll组件初始化的回调,可获取到mescroll对象
 			mescrollInit(mescroll) {
@@ -81,17 +128,19 @@
 				})
 			},
 			getListDataFromNet(pageNum,pageSize,successCallback,errorCallback) {
-				successCallback && successCallback([1,2,3]);
-				// this.$api.getCourseList({
-				// 	pageStart: pageNum,
-				// 	pageSize,
-				// 	status: this.index == 0 ? '' : this.index,
-				// 	userId: uni.getStorageSync('userInfo').id
-				// }).then(res => {
-				// 	successCallback && successCallback(res.data.result);
-				// }).catch(err => {
-				// 	errorCallback && errorCallback();
-				// })
+				// successCallback && successCallback([1,2,3]);
+				let statusList = ['passed', 'checking', 'unpassed', 'expired', 'done']
+				this.$api.getCarList({
+					page: pageNum,
+					number: pageSize,
+					title: this.keyWord,
+					status: statusList[this.index],
+					user_id: uni.getStorageSync('userInfo').id
+				}).then(res => {
+					successCallback && successCallback(res.result);
+				}).catch(err => {
+					errorCallback && errorCallback();
+				})
 			}
 		},
 		watch: {
@@ -101,6 +150,12 @@
 					this.mescroll.resetUpScroll()
 				}
 				// this.mescroll.triggerDownScroll();
+			},
+			keyWordChange(val) {
+				if(val) {
+					this.isInit = false
+					this.mescroll.resetUpScroll()
+				}
 			}
 		}
 	}
@@ -108,29 +163,38 @@
 
 <style lang="scss">
 	.question-list{
-		.question-item{
-			box-shadow: 0px 0px 22upx #e8e7e7;
-			width: 95%;
-			margin: 20upx auto;
-			border: none;
-			padding: 20upx;
-			.question-title{
-				height: 80upx;
-				line-height: 40upx;
-				font-size: 30upx;
-			}
-			.question-footer{
+		.address-item{
+			box-shadow: 0px 0px 10upx #cbcbcb;
+			padding: 8upx 10upx;
+			margin: 10upx 12upx;
+			font-size:28upx;
+			.item-top, .item-bottom{
+				height: 76upx;
+				line-height: 30upx;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				height: 80upx;
-				line-height: 40upx;
 			}
-			.question-time{
-				font-size: 24upx;
+			.phone{
+				font-size:24upx;
 				color: #999999;
 			}
-			.question-state{
+			.select{
+				width: 64upx;
+				height: 60upx;
+				background: url('/static/image/mine/icon-check.png') no-repeat center center;
+				background-size: 40upx 40upx;
+				font-size: 24upx;
+				color: #E46B09;
+				&.checked{
+					background-image: url('/static/image/mine/icon-checked.png');
+				}
+			}
+			.operator{
+				width: 64upx;
+				height: 60upx;
+				background: url('/static/image/mine/icon-sheet.png') no-repeat center center;
+				background-size: 40upx 40upx;
 				font-size: 24upx;
 				color: #E46B09;
 			}

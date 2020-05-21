@@ -358,7 +358,7 @@
 			font-size: 28upx;
 		}
 		.first-menu {
-			width: 20%;
+			width: 21%;
 			height: 64upx;
 			border: #B2B2B2 1px solid;
 			font-size: 13px;

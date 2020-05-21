@@ -1,9 +1,9 @@
 <template>
 	<div class="wrapper" :style="'top:'+statusBarHeight+'px'">
 		<div class="header">
-			<navigator class="back_div" open-type="navigateBack">
+			<!-- <navigator class="back_div" open-type="navigateBack">
 				<image class="back_img" src="../../static/image/back.png" mode=""></image>
-			</navigator>
+			</navigator> -->
 			<input class="input" @input="onInput" placeholder="中文/拼音/首字母" v-model="searchValue" />
 			<view class="all-city" @click="back_city()">全国</view>
 		</div>
@@ -262,7 +262,7 @@
 
 <style scoped>
 	.wrapper {
-		position: fixed;
+		/* position: fixed; */
 		z-index: 999999;
 		background: #ffffff;
 		height: 100%;
@@ -333,7 +333,7 @@
 
 	.input {
 		font-size: 28upx;
-		width: 580upx;
+		width: 625upx;
 		height: 55upx;
 		border-radius: 40upx;
 		background-color: #F5F5F5;

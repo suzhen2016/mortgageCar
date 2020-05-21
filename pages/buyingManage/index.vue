@@ -106,8 +106,8 @@
 							let ids = this.selectRequestCars.map(item => {
 								return item.id
 							})
-				           this.$api.deleteQuestion({
-								ids
+				           this.$api.deleteRequestBuy({
+								request_buy_ids: ids.join(',')
 				           }).then(res => {
 								this.$alert('删除成功')
 								this.$store.commit('selectRequestCar',[] )

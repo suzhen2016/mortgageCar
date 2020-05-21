@@ -5,7 +5,7 @@
 		       <view class="detail-container">
 				   <view class="margin">手机</view>
 				   <view class="phone">
-				   	<view>130111111111</view>
+				   	<view>{{phone}}</view>
 				   	<navigator hover-class="none" :url="`./send?type=1`" class="edit-phone">修改</navigator>
 				   </view>
 				   <view class="ui-form">姓名<em>*</em></view>
@@ -68,10 +68,11 @@
 		},
 		data() {
 			return {
+				phone: '',
 				name: '',
 				address: '',
 				postcode: '',
-				phoneNumber: '',
+				phone: '',
 				company: '',
 				department: '',
 				position: '',
@@ -91,6 +92,10 @@
 			uni.navigateBack({
 				delta:1
 			})
+		},
+		onLoad() {
+			let userInfo = uni.getStorageSync('userInfo')
+			this.phone = userInfo.phone
 		},
 		methods: {
 			upload() {

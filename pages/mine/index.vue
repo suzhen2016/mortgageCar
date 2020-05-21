@@ -66,8 +66,8 @@
 					},
 					{
 						img: '/static/image/mine/phone.png',
-						text: '客服电话：400-087-0081',
-						url: '400-087-0081'
+						text: '客服电话：18210042149',
+						url: '18210042149'
 					},
 					{
 						img: '/static/image/mine/about.png',
@@ -82,9 +82,15 @@
 		},
 		methods: {
 			goAvatar() {
-				uni.navigateTo({
-					url: './avatar'
-				})
+				if(!this.userInfo) {
+					uni.navigateTo({
+						url: '/pages/login/login'
+					})
+				}else{
+					uni.navigateTo({
+						url: './avatar'
+					})
+				}
 			},
 			goUrl(url) {
 				if(!this.userInfo) {

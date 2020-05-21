@@ -12,7 +12,7 @@
 				<view class="menu-name">{{item.text}}</view>
 			</view>
 		</view>
-		<view class="new-article">
+		<view class="new-article" v-if="!this.city">
 			<view class="left">
 				<image src="https://www.jjtdyc.com/static/picture/picture/guanfang2.png" mode="aspectFit"></image>
 			</view>
@@ -42,7 +42,7 @@
 		</view>
 		<view class="new-carlist">
 			<view>最新车源</view>
-			<view class="tel-num" @tap="phoneCall">官方热线：400-087-0081</view>
+			<view class="tel-num" @tap="phoneCall">官方热线：{{homeData && homeData.official}}</view>
 		</view>
 		<view class="car-list">
 			<navigator hover-class="none" :url="`/pages/carDetail/index?id=${item.id}`" class="car-item" v-for="(item, index) in homeData && homeData.cars" :key="index">
@@ -195,7 +195,6 @@
 					this.nowNews = [...this.homeData.news]
 					if(this.nowNews.length >= 2) {
 						this.timer = setInterval(item => {
-							console.log('enter')
 							this.marginTop -= 56
 							this.animate = true
 							setTimeout(() => {
@@ -210,14 +209,20 @@
 			},
 			setStyle() {
 				// #ifdef APP-PLUS
-				let pages = getCurrentPages();
-				let page = pages[pages.length - 1];
-				let currentWebview = page.$getAppWebview();
-				let titleNView = currentWebview.getStyle().titleNView;
-				titleNView.buttons[0].text = this.city ? this.city.name : '全国';
-				currentWebview.setStyle({
-					titleNView: titleNView
-				});
+				// let pages = getCurrentPages();
+				// let page = pages[pages.length - 1];
+				// let currentWebview = page.$getAppWebview();
+				let val = this.city ? this.city.name : '全国'
+				// console.log(val)
+				// let titleNView = currentWebview.getStyle().titleNView;
+				// titleNView.buttons[0].text = this.city ? this.city.name : '全国';
+				// currentWebview.setStyle({
+				// 	titleNView: titleNView
+				// });
+				var currentWebview = this.$mp.page.$getAppWebview();  
+				currentWebview.setTitleNViewButtonStyle(0, {  
+					text: val,  
+				}); 
 				// #endif
 				// #ifdef H5
 				document.getElementsByClassName('uni-btn-icon')[1].innerText = this.city ? this.city.name : '全国';
@@ -232,7 +237,7 @@
 			},
 			phoneCall() {
 				uni.makePhoneCall({
-				    phoneNumber: '114'
+				    phoneNumber: this.homeData.official
 				});
 			},
 			goPath(item) {

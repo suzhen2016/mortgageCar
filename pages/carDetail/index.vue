@@ -35,7 +35,7 @@
 				</view>
 				<view class="item">
 					<view class="left">归属地</view>
-					<view class="right">{{carDetail.address && carDetail.address.province}} >  {{carDetail.address && carDetail.address.city}}</view>
+					<view class="right">{{carDetail.address && carDetail.address.province.name}} >  {{carDetail.address && carDetail.address.city.name}}</view>
 				</view>
 				<view class="item">
 					<view class="left">联系方式</view>
@@ -106,14 +106,15 @@
 					car_id: this.id
 				}).then(res => {
 					this.carDetail = res.result
-					this.carDetail.price = Math.round((this.carDetail.price /10000) * 100) / 100,
+					// this.carDetail.price = Math.round((this.carDetail.price /10000) * 100) / 100,
+					this.carDetail.price  =  parseFloat(this.carDetail.price).toFixed(2)
 					this.carDetail.car_images = this.carDetail.car_images && this.carDetail.car_images.map(item => {
 						return {
 							img: `${config.qiniuSrc}${item.img}`
 						}
 					})
 					uni.setNavigationBarTitle({
-						title: `${res.result.brand.level_name}${res.result.brand.top_name}`
+						title: `${res.result.brand.brand_name.name}${res.result.brand.cars_name.name}`
 					})
 				})
 			},

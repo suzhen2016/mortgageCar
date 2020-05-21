@@ -239,6 +239,13 @@ export const createRequestBuy = (params) => {
 		data: params
 	})
 }
+//删除求购车信息
+export const deleteRequestBuy = (params) => {
+	return $ajax.post({
+		url: '/api/v1/delete_request_buy/',
+		data: params
+	})
+}
 //提交估价信息接口
 export const createValuation = (params) => {
 	return $ajax.post({
@@ -250,6 +257,13 @@ export const createValuation = (params) => {
 export const createCar = (params) => {
 	return $ajax.post({
 		url: '/api/v1/create_car/',
+		data: params
+	})
+}
+//删除买车信息
+export const deleteCar = (params) => {
+	return $ajax.post({
+		url: '/api/v1/delete_car_by_ids/',
 		data: params
 	})
 }
