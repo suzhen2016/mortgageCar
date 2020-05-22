@@ -394,6 +394,19 @@
 		onLoad() {
 			this.brandInit()
 			this.addressInit()
+		},
+		onShow() {
+			this.keyWord = ''
+			this.filter.brand_id = ''
+			this.brandDes = ''
+			this.filter.address_id = ''
+			this.address = ''
+			this.priceIndex = 0
+			this.filter.price_start = ''
+			this.filter.price_end = ''
+			this.filter.car_age = ''
+			this.ageIndex = 0
+			this.mescroll && this.mescroll.resetUpScroll()
 		}
 	}
 </script>

@@ -71,8 +71,8 @@
 			getListDataFromNet(pageNum,pageSize,successCallback,errorCallback) {
 				// successCallback && successCallback([1,2,3]);
 				this.$api.getNewList({
-					pageStart: pageNum,
-					page: pageSize,
+					page: pageNum,
+					number: pageSize,
 					cat_id: 0
 				}).then(res => {
 					console.log(res.result)
