@@ -8,13 +8,14 @@
 
 <script>
 	import avatar from "@/components/yq-avatar/yq-avatar.vue";
+	import config from '@/config'
 	export default {
 		components: {
 			avatar
 		},
 		data() {
 			return {
-				avatarUrl: 'http://image.wufazhuce.com/Fsrmr-V7PTb6fBOlrJqxzWi7G5Uu'
+				avatarUrl: ''
 			}
 		},
 		computed: {
@@ -22,41 +23,31 @@
 				return uni.getStorageSync('userInfo')
 			}
 		},
+		onLoad() {
+			this.avatarUrl = this.userInfo.user_pho && this.userInfo.user_pho != 'None'
+			|| 'http://image.wufazhuce.com/Fsrmr-V7PTb6fBOlrJqxzWi7G5Uu'
+		},
 		methods: {
 			myUpload(rsp) {
 				this.avatarUrl = rsp.path
-				this.$api.updateUserAvatar({
-					user_id: this.userInfo.id,
-					user_pho: this.avatarUrl
-				}).then(res => {
-					uni.setStorageSync('userInfo', res.result)
-				})
-				return 
-			    let avatar = rsp.path;
+				let token = '39cynet-76358255-2095-4dd9-932c-274702f99435';
 				uni.uploadFile({
-				  url: config.uploadUrl,
-				  name: 'file',
-				  filePath: avatar,
-				  header: {
-					Authorization: uni.getStorageSync('token')
-				  },
-				  formData: {
-				    
-				  },
-				  success: (res) =>{
-				   let headImgUrl = JSON.parse(res.data).data.uploadResultUrl
-				   let {nickname, sex} = this.userInfo
-				   this.$api.updateUserInfo({
-						nickname, 
-						headImgUrl, 
-						sex
-				   }).then(res => {
-						this.loadInfo()
-					})
-				  },
-				  fail: function(res) {
-				   console.log(res)
-				  }
+					url: config.uploadUrl, 
+					filePath: rsp.path,
+					name: 'upload_img',
+					header: {
+						"Api-Token": token,
+						'Auth-Token': uni.getStorageSync("token")
+					},
+					success: (uploadFileRes) => {
+						let img_id = JSON.parse(uploadFileRes.data).result.id
+						this.$api.updateUserAvatar({
+							user_id: this.userInfo.id,
+							img_id: img_id
+						}).then(res => {
+							uni.setStorageSync('userInfo', res.result)
+						})
+					}
 				});
 			},
 		}

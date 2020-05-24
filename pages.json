@@ -180,6 +180,12 @@
 			}
 		},
 		{
+			"path": "pages/search/list",
+			"style": {
+				"navigationBarTitleText": "车源搜索结果"
+			}
+		},
+		{
 			"path": "pages/question/index",
 			"style": {
 				"navigationBarTitleText": "问答"

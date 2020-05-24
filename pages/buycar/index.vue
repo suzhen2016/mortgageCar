@@ -1,5 +1,5 @@
 <template>
-	<mescroll-uni :fixed="false" top="0" :down="downOption" @down="downCallback" :up="upOption" @up="upCallback"
+	<mescroll-uni  top="0" :down="downOption" @down="downCallback" :up="upOption" @up="upCallback"
 	 @init="mescrollInit">
 		<view class="buy-car-container">
 			<view class="filter-container">
@@ -22,6 +22,7 @@
 			<view class="input-container">
 				<input type="text" v-model="keyWord" placeholder="请输入关键词" class="search-input" maxlength="20" @confirm="onConfirm"/>
 			</view>
+			
 			<view class="car-list">
 				<navigator hover-class="none" :url="`/pages/carDetail/index?id=${item.id}`" class="car-item" v-for="(item, index) in carList" :key="index">
 					<image :src="item.cat_img ? `http://39.99.187.24/media/${item.cat_img}` : '../../static/image/mine/newscar.jpg'"></image>
@@ -41,6 +42,7 @@
 					</view>
 				</navigator>
 			</view>
+			
 		</view>
 	</mescroll-uni>
 </template>
@@ -64,7 +66,12 @@
 				},
 				upOption: {
 					auto: true, 
-					// noMoreSize: 4,
+					noMoreSize: 4,
+					page: {
+						num : 0 ,
+					    size : 10 ,
+					    time : null
+					},
 					empty: {
 						tip: '~ 暂无信息 ~', // 提示
 						// btnText: '去看看'
@@ -97,7 +104,8 @@
 				priceList: [
 					{
 						"name": "选择价格",
-						"value": ""
+						"price_start": '',
+						"price_end": ''
 					},
 					{
 						"name": "1万以下",
@@ -372,6 +380,7 @@
 			},
 			getListDataFromNet(pageNum, pageSize, successCallback, errorCallback) {
 				// successCallback(new Array(10).fill(0))
+				console.log(pageNum, pageSize)
 				this.$api.getCarList({
 					page: pageNum,
 					number: pageSize,
@@ -394,6 +403,9 @@
 		onLoad() {
 			this.brandInit()
 			this.addressInit()
+		},
+		onShow() {
+			this.mescroll && this.mescroll.resetUpScroll()
 		}
 	}
 </script>

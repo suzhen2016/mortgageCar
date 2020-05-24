@@ -39,7 +39,7 @@
 						<view v-for="(keyword,index) in oldKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
 					</view>
 				</view>
-				<view class="keyword-block">
+				<view class="keyword-block" v-if="false">
 					<view class="keyword-list-header">
 						<view>热门搜索</view>
 						<view>
@@ -121,14 +121,14 @@
 				}
 				this.isShowKeywordList = true;
 				//以下示例截取淘宝的关键字，请替换成你的接口
-				uni.request({
-					url: 'https://suggest.taobao.com/sug?code=utf-8&q=' + keyword, //仅为示例
-					success: (res) => {
-						this.keywordList = [];
-						this.keywordList = this.drawCorrelativeKeyword(res.data.result, keyword);
+				// uni.request({
+				// 	url: 'https://suggest.taobao.com/sug?code=utf-8&q=' + keyword, //仅为示例
+				// 	success: (res) => {
+				// 		this.keywordList = [];
+				// 		this.keywordList = this.drawCorrelativeKeyword(res.data.result, keyword);
 						
-					}
-				});
+				// 	}
+				// });
 			},
 			//高亮关键字
 			drawCorrelativeKeyword(keywords, keyword) {
@@ -177,11 +177,14 @@
 				keyword = keyword===false?this.keyword:keyword;
 				this.keyword = keyword;
 				this.saveKeyword(keyword); //保存为历史 
-				uni.showToast({
-					title: keyword,
-					icon: 'none',
-					duration: 2000
-				});
+				// uni.showToast({
+				// 	title: keyword,
+				// 	icon: 'none',
+				// 	duration: 2000
+				// });
+				uni.navigateTo({
+					url: `./list?keyword=${keyword}`
+				})
 				//以下是示例跳转淘宝搜索，可自己实现搜索逻辑
 				/*
 				//#ifdef APP-PLUS
