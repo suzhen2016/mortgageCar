@@ -9,7 +9,7 @@ Vue.prototype.$store = store;
 
 /*
 	注册全局组件 loading
-    需要用到的页面中 在最外层 加上 <fr-loading></fr-loading>  即可   fr-loading 可自定义名称
+    需要用到的页面中 在最外层 加上 <fr-loading></fr-loading>  即可   fr-loading 可自定义名称    
 	js 中调用 this.$loading() 
 		参数可选
 			不填 -->  切换loading显示/隐藏
